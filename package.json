@@ -1,0 +1,34 @@
+{
+  "name": "html-headshot",
+  "version": "0.1.0",
+  "description": "an html parser to used to find what you need to be extracted in html page",
+  "main": "index.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "node --experimental-vm-modules node_modules/.bin/jest",
+    "dev": "clear && nodemon app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/plouiserre/html-headshot.git"
+  },
+  "keywords": [
+    "html",
+    "parser",
+    "fast"
+  ],
+  "author": "Pierre-Louis SERRE",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/plouiserre/html-headshot/issues"
+  },
+  "homepage": "https://github.com/plouiserre/html-headshot#readme",
+  "devDependencies": {
+    "@babel/core": "^7.26.9",
+    "@babel/preset-env": "^7.26.9",
+    "babel-jest": "^29.7.0",
+    "jest": "^29.7.0"
+  }
+}
