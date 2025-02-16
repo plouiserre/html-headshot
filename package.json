@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "description": "an html parser to used to find what you need to be extracted in html page",
   "main": "index.js",
+  "type": "module",
   "directories": {
     "test": "tests"
   },
