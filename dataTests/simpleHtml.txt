@@ -1,0 +1,10 @@
+<div class="vector-menu-content">	
+    <ul class="vector-menu-content-list">
+        <li id="n-recentchanges" class="mw-list-item"><a href="/Sp%C3%A9cial:Modifications_r%C3%A9centes" title="Liste des modifications récentes sur le wiki [r]" accesskey="r"><span>Modifications récentes</span></a></li>
+        <li id="n-portal" class="mw-list-item"><a href="/Pok%C3%A9p%C3%A9dia:Tableau_de_bord" title="À propos du projet, ce que vous pouvez faire, où trouver les informations"><span>Tableau de bord</span></a></li>
+        <li id="n-Projets" class="mw-list-item"><a href="/Cat%C3%A9gorie:Projet"><span>Projets</span></a></li>
+        <li id="n-Premiers-pas" class="mw-list-item"><a href="/Aide:Premiers_pas"><span>Premiers pas</span></a></li>
+        <li id="n-Bac-à-sable" class="mw-list-item"><a href="/Aide:Bac_%C3%A0_sable"><span>Bac à sable</span></a></li>
+        <li id="n-Conventions" class="mw-list-item"><a href="/Pok%C3%A9p%C3%A9dia:Conventions_de_style"><span>Conventions</span></a></li>
+    </ul>
+</div>
