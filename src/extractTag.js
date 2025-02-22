@@ -1,47 +1,57 @@
 export default class ExtractTag{
     constructor(){
         this.isSimpleTag = false;
+        this.openTag = '';
+        this.closedTag = '';
+        this.simpleOpenTag = '';
+        this.sameOpenTag = 0;
     }
-
-    extract = (tag, html) =>{
-        let contentTag = '';
-        let sameOpenTag = 0;
-        this.determinateIsSimpleTag(html);
-        const closedTag = this.generateClosedTag(tag);
-        const openTag = this.generateOpenTag(tag);
+    
+    extract = (html)=>{
+        let recordingOpenTag = true;
+        let content = '';
         for(let i = 0; i < html.length; i ++){
-            const openTagCandidate = this.generateTagCandidate(i, openTag.length, html);
-            const closedTagCandidate = this.generateTagCandidate(i, closedTag.length, html);
-            if(openTagCandidate == openTag){
-                sameOpenTag +=1 ;
+            const caracter = html[i];
+            if(!recordingOpenTag){
+                const closedTagFind = this.identifyIfClosedTag(html, i);
+                if(closedTagFind)
+                    break;
             }
-            if(closedTagCandidate == closedTag && sameOpenTag <= 0)
-                break;
-            if(closedTagCandidate == closedTag)
-                sameOpenTag -= 1;
-            contentTag+=html[i];
+            content += caracter;
+            if(recordingOpenTag)
+                this.openTag += caracter;
+            if(caracter == '>'){
+                recordingOpenTag = false;
+                this.generateClosedTag();
+                this.generateBaseOpenTag();
+            }
         }
-        const tagBuild = openTag+contentTag+closedTag;
+        const tagBuild = content + this.closedTag;
         return tagBuild;
     }
 
-    generateOpenTag = (tag)=>{
-        const openTag = this.isSimpleTag ? '<'+tag+'>' : '<'+tag;+' ';
-        return openTag;
+    identifyIfClosedTag = (html, index)=>{
+        const openTagCandidate = html.substring(index, index + this.simpleOpenTag.length);
+        const closedTagCandidate = html.substring(index, index+this.closedTag.length);
+        if(openTagCandidate === this.simpleOpenTag){
+            this.sameOpenTag += 1;
+            return false;
+        }
+        else if(closedTagCandidate === this.closedTag && this.sameOpenTag > 0){
+            this.sameOpenTag -=1;
+            return false
+        }
+        else if(closedTagCandidate === this.closedTag && this.sameOpenTag <= 0){
+            return true;
+        }
     }
-    
-    determinateIsSimpleTag = (html)=>{
-        return this.isSimpleTag = html[0] != ' ' ? true : false;
+
+    generateClosedTag = () =>{
+        const simpleTag = this.openTag.replace('<', '').replace('>','').split(' ')[0];
+        this.closedTag = '</'+simpleTag+'>';
     }
-    
-    generateTagCandidate = (index, closedTagLength, html)=>{
-        const endSubstring = index + closedTagLength;
-        const closedTagCandidate = html.substring(index , endSubstring);
-        return closedTagCandidate;
+
+    generateBaseOpenTag = () =>{
+        this.simpleOpenTag = this.openTag.replace('>','').split(' ')[0];
     }
-    
-    generateClosedTag = (tag)=>{
-        let closedTag = '</'+tag+'>';
-        return closedTag;
-    };
 }
