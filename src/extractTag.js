@@ -5,6 +5,8 @@ export default class ExtractTag{
         this.closedTag = '';
         this.simpleOpenTag = '';
         this.sameOpenTag = 0;
+        this.isForbiddenTag = false;
+        this.forbiddenTag = ['!DOCTYPE', 'meta','link', 'input', 'img'];
     }
     
     extract = (html)=>{
@@ -24,9 +26,14 @@ export default class ExtractTag{
                 recordingOpenTag = false;
                 this.generateClosedTag();
                 this.generateBaseOpenTag();
+                if(this.definedIsForbiddenTag())
+                {
+                    this.isForbiddenTag = true;
+                    break;
+                }
             }
         }
-        const tagBuild = content + this.closedTag;
+        const tagBuild = this.isForbiddenTag ? undefined : content + this.closedTag;
         return tagBuild;
     }
 
@@ -53,5 +60,10 @@ export default class ExtractTag{
 
     generateBaseOpenTag = () =>{
         this.simpleOpenTag = this.openTag.replace('>','').split(' ')[0];
+    }
+
+    definedIsForbiddenTag = ()=>{
+        const forbiddenTagCandidate = this.simpleOpenTag.replace('<','');
+        return this.forbiddenTag.includes(forbiddenTagCandidate);
     }
 }
