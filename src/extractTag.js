@@ -34,7 +34,9 @@ export default class ExtractTag{
             }
         }
         const tagBuild = this.isForbiddenTag ? undefined : content + this.closedTag;
-        return tagBuild;
+        const tags = [];
+        tags.push(tagBuild);
+        return tags;
     }
 
     identifyIfClosedTag = (html, index)=>{

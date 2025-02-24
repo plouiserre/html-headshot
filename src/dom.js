@@ -7,12 +7,20 @@ export default class Dom{
     }
 
     buildDom = (html)=>{
-        const dom = [];
-        const firstAnalyze = this.workingPartDom(html);
-        dom.push(firstAnalyze);
-        const secondAnalyze = this.workingPartDom(firstAnalyze.content);
-        dom.push(secondAnalyze);
-        return dom;
+        const domResult = [];
+        const htmlToAnalyze = [];
+        htmlToAnalyze.push(html);
+        // const firstAnalyze = this.workingPartDom(html);
+        //let contentToAnalyze = firstAnalyze.content;
+        //domResult.push(firstAnalyze);
+        while(htmlToAnalyze.length > 0){
+            const tags = htmlToAnalyze.pop();
+            const analyze = this.workingPartDom(tags);
+            domResult.push(analyze);
+            if(!analyze.contentOnlyText === true)
+                htmlToAnalyze.push(analyze.content);
+        }
+        return domResult;
     }
 
     workingPartDom = (html)=>{
