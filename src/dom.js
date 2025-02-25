@@ -10,15 +10,15 @@ export default class Dom{
         const domResult = [];
         const htmlToAnalyze = [];
         htmlToAnalyze.push(html);
-        // const firstAnalyze = this.workingPartDom(html);
-        //let contentToAnalyze = firstAnalyze.content;
-        //domResult.push(firstAnalyze);
         while(htmlToAnalyze.length > 0){
             const tags = htmlToAnalyze.pop();
-            const analyze = this.workingPartDom(tags);
-            domResult.push(analyze);
-            if(!analyze.contentOnlyText === true)
-                htmlToAnalyze.push(analyze.content);
+            const analyzes = this.workingPartDom(tags);
+            for(let i = 0; i < analyzes.length; i ++){
+                const analyze = analyzes[i];
+                domResult.push(analyze);
+                if(!analyze.contentOnlyText === true)
+                    htmlToAnalyze.push(analyze.content);
+            }
         }
         return domResult;
     }
@@ -26,8 +26,12 @@ export default class Dom{
     workingPartDom = (html)=>{
         this.extract = new ExtractTag();
         this.analyze = new AnalyzeTag();
-        const tag = this.extract.extract(html);
-        const analyze = this.analyze.analyzeData(tag);
-        return analyze;
+        const tags = this.extract.extract(html);
+        const analyzes = [];
+        for(let i = 0; i < tags.length; i ++){
+            const analyze = this.analyze.analyzeData(tags[i]);
+            analyzes.push(analyze);
+        }
+        return analyzes;
     }
 }
