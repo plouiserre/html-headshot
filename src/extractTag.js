@@ -10,14 +10,39 @@ export default class ExtractTag{
     }
     
     extract = (html)=>{
+        let htmlIsNotEmpty = true;
+        const tags = [];
+        while(htmlIsNotEmpty){
+            const extraction = this.searchNextExtraction(html);
+            if(extraction.tagComplete)
+                tags.push(extraction.tag);
+            if(extraction.html.length == 0){
+                htmlIsNotEmpty = false;
+            }
+            else{
+                html = extraction.html;
+                this.deleteTagsInMemory();
+            }
+        }
+        
+        return tags;
+    }
+
+    //TODO improve code
+    searchNextExtraction = (html)=>{
         let recordingOpenTag = true;
         let content = '';
+        let index = 0;
+        let tagComplete = false;
         for(let i = 0; i < html.length; i ++){
+            index = i;
             const caracter = html[i];
             if(!recordingOpenTag){
                 const closedTagFind = this.identifyIfClosedTag(html, i);
-                if(closedTagFind)
+                if(closedTagFind){
+                    tagComplete = true;
                     break;
+                }
             }
             content += caracter;
             if(recordingOpenTag)
@@ -34,10 +59,23 @@ export default class ExtractTag{
             }
         }
         const tagBuild = this.isForbiddenTag ? undefined : content + this.closedTag;
-        const tags = [];
-        tags.push(tagBuild);
-        return tags;
-    }
+        const indexSubstring = index + this.closedTag.length;
+        //TODO rework this htmlToAnalyze part
+        let htmlToAnalyze = html.substring(indexSubstring, html.length);
+        if(htmlToAnalyze=="\"")
+            htmlToAnalyze = "";
+        return {
+            tag : tagBuild,
+            html : htmlToAnalyze,
+            tagComplete : tagComplete
+        };
+    };
+
+    deleteTagsInMemory = ()=>{
+        this.openTag = '';
+        this.closedTag = '';
+        this.simpleOpenTag = '';
+    };
 
     identifyIfClosedTag = (html, index)=>{
         const openTagCandidate = html.substring(index, index + this.simpleOpenTag.length);
