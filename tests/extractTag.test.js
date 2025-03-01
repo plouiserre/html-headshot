@@ -58,22 +58,14 @@ test('can analyze two tags following each other', ()=>{
     expect(compareTwoArrays(result, resultWaiting)).toBe(true);
 });
 
+test('can extract only good tag(s) and refuse forbidden tag',()=>{
+    const html = '<input class="cdx-text-input__input" type="search" name="search" placeholder="Rechercher sur Poképédia" aria-label="Rechercher sur Poképédia" autocapitalize="sentences" title="Rechercher sur Poképédia [f]" accesskey="f" id="searchInput"><span class="cdx-text-input__icon cdx-text-input__start-icon"></span>';
+    const extractTag = new ExtractTag();
+    const result = extractTag.extract(html);
 
-
-const compareTwoArrays = (firstArray, secondArray)=>{
-    if(firstArray.length!== secondArray.length)
-        return false;
-    for(let i = 0; i < firstArray.length; i ++)
-    {
-        const firstTag = firstArray[i];
-        const secondTag = secondArray[i];
-        if(firstTag !== secondTag)
-            return false;
-    }
-    return true;
-}
-
-
+    const resultWaiting = ['<span class="cdx-text-input__icon cdx-text-input__start-icon"></span>'];
+    expect(compareTwoArrays(result, resultWaiting)).toBe(true);
+})
 
 test('cannot analyze <!DOCTYPE html> meta link input img tags',()=>{
     const doctype = '<!DOCTYPE html>"';
@@ -89,3 +81,16 @@ test('cannot analyze <!DOCTYPE html> meta link input img tags',()=>{
         expect(result[0]).toBe(undefined);
     }
 })
+
+const compareTwoArrays = (firstArray, secondArray)=>{
+    if(firstArray.length!== secondArray.length)
+        return false;
+    for(let i = 0; i < firstArray.length; i ++)
+    {
+        const firstTag = firstArray[i];
+        const secondTag = secondArray[i];
+        if(firstTag !== secondTag)
+            return false;
+    }
+    return true;
+}

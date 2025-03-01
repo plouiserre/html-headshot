@@ -40,6 +40,7 @@ export default class ExtractTag{
             if(!recordingOpenTag){
                 const closedTagFind = this.identifyIfClosedTag(html, i);
                 if(closedTagFind){
+                    this.isForbiddenTag = false;
                     tagComplete = true;
                     break;
                 }
@@ -59,7 +60,7 @@ export default class ExtractTag{
             }
         }
         const tagBuild = this.isForbiddenTag ? undefined : content + this.closedTag;
-        const indexSubstring = index + this.closedTag.length;
+        const indexSubstring = this.isForbiddenTag ? index + 1 : index + this.closedTag.length;
         //TODO rework this htmlToAnalyze part
         let htmlToAnalyze = html.substring(indexSubstring, html.length);
         if(htmlToAnalyze=="\"")

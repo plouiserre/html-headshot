@@ -16,7 +16,7 @@ export default class Dom{
             for(let i = 0; i < analyzes.length; i ++){
                 const analyze = analyzes[i];
                 domResult.push(analyze);
-                if(!analyze.contentOnlyText === true)
+                if(!analyze.contentOnlyText)
                     htmlToAnalyze.push(analyze.content);
             }
         }
@@ -25,10 +25,10 @@ export default class Dom{
 
     workingPartDom = (html)=>{
         this.extract = new ExtractTag();
-        this.analyze = new AnalyzeTag();
         const tags = this.extract.extract(html);
         const analyzes = [];
         for(let i = 0; i < tags.length; i ++){
+            this.analyze = new AnalyzeTag();
             const analyze = this.analyze.analyzeData(tags[i]);
             analyzes.push(analyze);
         }
