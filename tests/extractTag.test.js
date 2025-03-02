@@ -82,6 +82,14 @@ test('cannot analyze <!DOCTYPE html> meta link input img tags',()=>{
     }
 })
 
+// test('throw an error when the closed tag is not find with ok tag', ()=>{
+//     const html = '<div id="p-variants" class="vector-dropdown emptyPortlet"><input type="checkbox" id="p-variants-checkbox" role="button" aria-haspopup="true" data-event-name="ui.dropdown-p-variants" class="vector-dropdown-checkbox" aria-label="Modifier la variante de langue"><label id="p-variants-label" for="p-variants-checkbox" class="vector-dropdown-label cdx-button cdx-button--fake-button cdx-button--fake-button--enabled cdx-button--weight-quiet" aria-hidden="true"><span class="vector-dropdown-label-text">français</span><div class="vector-dropdown-content"><div id="p-variants" class="vector-menu mw-portlet mw-portlet-variants emptyPortlet"><div class="vector-menu-content"><ul class="vector-menu-content-list"></ul></div></div></div></div><div id="p-lang-btn" class="vector-dropdown mw-portlet mw-portlet-lang"';
+    
+//     const extractTag = new ExtractTag();
+    
+//     expect(()=>extractTag.extract(html)).toThrow("The tag label do not have a closed tag") ;
+// })
+
 const compareTwoArrays = (firstArray, secondArray)=>{
     if(firstArray.length!== secondArray.length)
         return false;

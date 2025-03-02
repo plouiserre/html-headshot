@@ -70,6 +70,15 @@ test('Build Dom with a forbidden tag inside div', ()=>{
     expect(CompareTagObject(expected,result)).toBe(true);
 })
 
+//TODO 
+//1 -> réecrire le code d'extractTag pour le rendre plus maintenable DOING
+//2 -> créer un nouveau test dans extractTag.js pour avoir trois balises qui se suivent
+//3 -> test à faire quand une balise n'a pas de fermeture il faut générer une erreur 
+//4 -> réécriture : 
+//  a -> réécrire la méthode determinateCssClass d'analyzetag
+//  b -> réécrire la méthode determinateIdCss d'analyzetag
+//  c -> réécrire la méthode searchNextExtraction d'extracttag
+
 const CompareTagObject = (firstTags, secondTags)=>{
     if(firstTags.length !== secondTags.length)
         return false;
