@@ -1,4 +1,4 @@
-import ExtractTag from "./extractTag"
+import ExtractAllTags from "./extractAllTags"
 import AnalyzeTag from "./analyzeTag"
 
 export default class Dom{
@@ -24,8 +24,8 @@ export default class Dom{
     }
 
     workingPartDom = (html)=>{
-        this.extract = new ExtractTag();
-        const tags = this.extract.extract(html);
+        this.extractAllTags = new ExtractAllTags();
+        const tags = this.extractAllTags.extract(html);
         const analyzes = [];
         for(let i = 0; i < tags.length; i ++){
             this.analyze = new AnalyzeTag();

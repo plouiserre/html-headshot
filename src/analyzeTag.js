@@ -52,20 +52,27 @@ export default class AnalyzeTag{
         if(this.content.includes('<'))
             this.contentOnlyText = false;
     }
-    
-    //TODO improve this code
-    determinateCssClass = ()=>{
-        this.cssClass = '';
-        const classAttribut = 'class="';
-        let recordingCssClass = false;
+
+    determinateCssClass = () => {
+        this.cssClass = this.getAttribute('class');
+    }
+
+    determinateIdCss = () => {
+        this.cssId = this.getAttribute('id');
+    }
+
+    getAttribute = (attribute) => {
+        let attributValue = '';
+        const classAttribut = `${attribute}="`;
+        let recording = false;
         let indexRecording = 0;
         let quoteNumber = 0;
         for(let i = 0; i < this.openTag.length; i ++){
             const content = this.openTag[i];
-            if(!recordingCssClass){
+            if(!recording){
                 const classAttributCandidate = this.openTag.substring(i, i+classAttribut.length);
                 if(classAttributCandidate===classAttribut){
-                    recordingCssClass = true;
+                    recording = true;
                     indexRecording = i + classAttribut.length;
                 }
             }
@@ -77,36 +84,10 @@ export default class AnalyzeTag{
                 continue;
             }
             else if (i >= indexRecording){
-                this.cssClass += content;
+                attributValue += content;
             }
         }
-    }
-
-    //TODO improve this code
-    determinateIdCss = () => {
-        this.cssId = '';
-        const classAttribut = 'id="';
-        let recordingCssId = false;
-        let indexRecording = 0;
-        for(let i = 0; i < this.openTag.length; i ++){
-            const content = this.openTag[i];
-                if(!recordingCssId){
-                const classAttributCandidate = this.openTag.substring(i, i+classAttribut.length);
-                if(classAttributCandidate===classAttribut){
-                    recordingCssId = true;
-                    indexRecording = i + classAttribut.length;
-                }
-            }
-            else if (content == '"'){
-                continue;
-            }
-            else if (content == '>' || content == ' '){
-                break;
-            }
-            else if (i >= indexRecording){
-                this.cssId += content;
-            }
-        }
+        return attributValue;
     }
     
     constructAnalyze=()=>{

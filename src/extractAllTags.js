@@ -1,31 +1,28 @@
-export default class ExtractTag{
-    
+import ExtractTag from "./extractTag";
+
+export default class ExtractAllTags{
     constructor(){
+        this.isSimpleTag = false;
         this.indexEnd = 0;
         this.openTag = '';
-        this.simpleOpenTag = '';
         this.closedTag = '';
+        this.isForbiddenTag = false;
         this.forbiddenTag = ['!DOCTYPE', 'meta','link', 'input', 'img'];
     }
-
+    
     extract = (html)=>{
-        this.searchTagOpen(html);
-        this.constructOpenTag();
-        const forbiddenTag = this.identifyForbiddenTag();
-        if(forbiddenTag){
-            const tag = {html : this.openTag, extraction : false, simpleTag : this.simpleOpenTag};
-            return tag;
+        const tags = [];
+        let htmlToAnalyze = html;
+        while(htmlToAnalyze!==''){
+            const extractTag = new ExtractTag();
+            const tag = extractTag.extract(htmlToAnalyze);
+            if(tag.extraction && tag.html !=='')
+                tags.push(tag.html);
+            else if(tag.html ==='')
+                throw new Error("La balise "+tag.simpleTag+" ne se ferme pas!!!" );
+            htmlToAnalyze = htmlToAnalyze.replace(tag.html, '');
         }
-        else{
-            this.searchTagClosed(html);
-            const tagHtml = this.extractHtml(html);
-            const tag = {html :tagHtml, extraction : tagHtml ===''? false : true, simpleTag : this.simpleOpenTag };
-            return tag;
-        }
-    }
-
-    constructOpenTag=()=>{
-        this.simpleOpenTag = this.openTag.replace('<','').split(' ')[0].replace('>','');
+        return tags;
     }
 
     searchTagOpen = (html)=>{
@@ -35,10 +32,6 @@ export default class ExtractTag{
             if(caracter == '>')
                 break;
         }
-    }
-
-    identifyForbiddenTag = ()=>{
-        return this.forbiddenTag.includes(this.simpleOpenTag);
     }
 
     searchTagClosed = (html)=>{
@@ -74,4 +67,12 @@ export default class ExtractTag{
     getOpenBaseTag = ()=>{
         return this.closedTag.replace('</','<').replace('>','');
     }
+
+
+    deleteHtmlUsed = (html)=>{
+        const htmlUsed = html.substring(0, this.indexEnd);
+        const htmlFresch = html.replace(htmlUsed, '');
+        return htmlFresch;
+    }
+
 }
