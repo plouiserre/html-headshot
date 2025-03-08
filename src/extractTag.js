@@ -29,11 +29,16 @@ export default class ExtractTag{
     }
 
     searchTagOpen = (html)=>{
+        let startSaveOpenTag = false;
         for(let i = 0; i < html.length; i ++){
             const caracter = html[i];
-            this.openTag += caracter;
-            if(caracter == '>')
-                break;
+            if(caracter=='<')
+                startSaveOpenTag = true;
+            if(startSaveOpenTag){
+                this.openTag += caracter;
+                if(caracter == '>')
+                    break;
+            }
         }
     }
 

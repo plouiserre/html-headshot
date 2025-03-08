@@ -1,5 +1,5 @@
-import ExtractAllTags from "./extractAllTags"
-import AnalyzeTag from "./analyzeTag"
+import ExtractAllTags from "./extractAllTags.js"
+import AnalyzeTag from "./analyzeTag.js"
 
 export default class Dom{
     constructor(){

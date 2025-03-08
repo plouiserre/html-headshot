@@ -1,4 +1,4 @@
-import ExtractTag from "./extractTag";
+import ExtractTag from "./extractTag.js";
 
 export default class ExtractAllTags{
     constructor(){
