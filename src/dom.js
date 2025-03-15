@@ -2,8 +2,8 @@ import ExtractAllTags from "./extractAllTags.js"
 import AnalyzeTag from "./analyzeTag.js"
 
 export default class Dom{
-    constructor(){
-      
+    constructor(log){
+      this.log = log;
     }
 
     buildDom = (html)=>{
