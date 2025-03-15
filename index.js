@@ -5,10 +5,11 @@ import CleanPage from "./src/cleanPage.js";
 const suckPageHtml = new suckPage("https://www.pokepedia.fr/Liste_des_Pok%C3%A9mon_de_la_troisi%C3%A8me_g%C3%A9n%C3%A9ration");
 const html = await suckPageHtml.getPage();
 console.log(`taille html ${html.length}`);
-const cleanPageHtml = new CleanPage(html, ['\n', '<!--', '-->']);
+const cleanPageHtml = new CleanPage(html, ['\n', '\t']);
 const htmlCleaned = cleanPageHtml.deleteUselessElements();
 const domPage = new Dom();
-domPage.buildDom(htmlCleaned);
+const domResult = domPage.buildDom(htmlCleaned);
+console.log('fin!!');
 
 //composition 
 // -> l'index.js sera le workflow.js

@@ -14,6 +14,7 @@ export default class AnalyzeTag{
 
     analyzeData = (html)=>{
         this.allHtml = html;
+        this.cleanHtml();
         this.determinateOpenTag();
         this.determinateTag();
         this.determinateCloseTag();
@@ -22,6 +23,10 @@ export default class AnalyzeTag{
         this.determinateIdCss();
         this.constructAnalyze();
         return this.analyze;
+    }
+
+    cleanHtml = () => {
+        this.allHtml = this.allHtml.trimStart();
     }
     
     determinateOpenTag = ()=>{

@@ -10,7 +10,14 @@ export default class Dom{
         const domResult = [];
         const htmlToAnalyze = [];
         htmlToAnalyze.push(html);
+        let m = 0;
         while(htmlToAnalyze.length > 0){
+            //------------ A SUPPRIMER ------------//
+            console.log(`m ${m}`);
+            if(m == 10){
+                console.log('stop!!!!');
+            }
+            //------------ A SUPPRIMER ------------//
             const tags = htmlToAnalyze.pop();
             const analyzes = this.workingPartDom(tags);
             for(let i = 0; i < analyzes.length; i ++){
@@ -19,6 +26,7 @@ export default class Dom{
                 if(!analyze.contentOnlyText)
                     htmlToAnalyze.push(analyze.content);
             }
+            m+=1;
         }
         return domResult;
     }

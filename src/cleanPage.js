@@ -9,7 +9,7 @@ export default class CleanPage{
     deleteUselessElements = ()=>{
         let htmlCleaned = this.html;
         for(let i = 0; i < this.simpleCaracter.length; i ++){
-            htmlCleaned =  htmlCleaned.replaceAll(this.simpleCaracter[i],' ');
+            htmlCleaned =  htmlCleaned.replaceAll(this.simpleCaracter[i],'');
         }
         this.html = htmlCleaned;
         htmlCleaned = this.deleteCommentaries();

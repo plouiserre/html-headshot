@@ -62,3 +62,12 @@ test('Analyze Tags with one attribut, two class css, and many sub element with t
     const expected = {tagName : 'li', content:'<a href="/Liste_des_Pok%C3%A9mon_de_la_premi%C3%A8re_g%C3%A9n%C3%A9ration"><span>Lire</span></a>', cssClass : 'selected vector-tab-noicon mw-list-item', cssId:'ca-view',  contentOnlyText : false};
     expect(JSON.stringify(expected)).toBe(JSON.stringify(result));
 });
+
+test('Analyze tag with one space before the opens', async()=>{
+    const html = ' <div class="vector-settings" id="p-dock-bottom"><ul></ul></div>';
+    const analyzeTag = new AnalyzeTag();
+    const result = analyzeTag.analyzeData(html);
+
+    const expected = {tagName : 'div', content:'<ul></ul>', cssClass : 'vector-settings', cssId:'p-dock-bottom',  contentOnlyText : false};
+    expect(JSON.stringify(expected)).toBe(JSON.stringify(result));
+});

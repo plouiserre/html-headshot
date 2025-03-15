@@ -6,7 +6,7 @@ test('Delete all \n and \t caracteres', async ()=>{
     const cleanPage = new CleanPage(html, ['\n', '\t']);
     const htmlCleaned = cleanPage.deleteUselessElements();
 
-    const expected = '<div>Je suis ton père   Tu me dois le respect !!!!!    OK??  </div>';
+    const expected = '<div>Je suis ton père  Tu me dois le respect !!!!!  OK?? </div>';
     expect(htmlCleaned).toBe(expected);
 });
 
@@ -15,6 +15,6 @@ test('Delete many commentaries <!-- and -->', async ()=>{
     const cleanPage = new CleanPage(html, ['\n', '\t']);
     const htmlCleaned = cleanPage.deleteUselessElements();
 
-    const expected = '<div>Je suis ton père   Tu me  dois le respect  !!!!!    OK??  </div>';
+    const expected = '<div>Je suis ton père  Tu me  dois le respect  !!!!!  OK?? </div>';
     expect(htmlCleaned).toBe(expected);
 })
