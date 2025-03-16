@@ -52,6 +52,7 @@ export default class AnalyzeTag{
         this.closeTag = '</'+this.tag+'>';
     }
     
+    //TODO il faut le faire de manière plus complexe voir d'externaliser tout dans une nouvelle classe
     determinateContent = ()=>{
         this.content = this.allHtml.replace(this.openTag,'').replace(this.closeTag,'');
         if(this.content.includes('<'))

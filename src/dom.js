@@ -4,17 +4,17 @@ import AnalyzeTag from "./analyzeTag.js"
 export default class Dom{
     constructor(log){
       this.log = log;
+      this.m = 0;
     }
 
     buildDom = (html)=>{
         const domResult = [];
         const htmlToAnalyze = [];
         htmlToAnalyze.push(html);
-        let m = 0;
         while(htmlToAnalyze.length > 0){
             //------------ A SUPPRIMER ------------//
-            console.log(`m ${m}`);
-            if(m == 10){
+            console.log(`m ${this.m}`);
+            if(this.m == 5){
                 console.log('stop!!!!');
             }
             //------------ A SUPPRIMER ------------//
@@ -26,13 +26,14 @@ export default class Dom{
                 if(!analyze.contentOnlyText)
                     htmlToAnalyze.push(analyze.content);
             }
-            m+=1;
+            this.m += 1;
         }
         return domResult;
     }
 
     workingPartDom = (html)=>{
         this.extractAllTags = new ExtractAllTags();
+        this.logsMessage(html);
         const tags = this.extractAllTags.extract(html);
         const analyzes = [];
         for(let i = 0; i < tags.length; i ++){
@@ -41,5 +42,14 @@ export default class Dom{
             analyzes.push(analyze);
         }
         return analyzes;
+    }
+
+    logsMessage = (html)=>{
+        if(this.m == 0){
+            this.log.write(`${this.m}: html analysé avant l'extract \n ${html}`);
+        }
+        else {
+            this.log.write(`\n\n\n${this.m}: html analysé avant l'extract \n ${html}`);
+        }
     }
 }

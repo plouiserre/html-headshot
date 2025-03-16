@@ -4,6 +4,16 @@ export default class Log{
     constructor(options){
         this.options = options;
         this.msg = '';
+        this.nameFile = '';
+        this.createLogFile();
+    }
+
+    createLogFile=()=>{
+        const ts = Date.now();
+        const date = new Date(ts);
+        const dateFile = `${date.getFullYear()}${date.getMonth()}${date.getDay()}_${date.getHours()}${date.getMinutes()}${date.getSeconds()}`;
+        this.nameFile =`./Debug/${dateFile}.txt`;
+        fs.createWriteStream(this.nameFile);
     }
 
     write = (msg) =>{
@@ -15,10 +25,7 @@ export default class Log{
     };
 
     writeFile = () =>{
-        const ts = Date.now();
-        const date = new Date(ts);
-        const dateFile = `${date.getFullYear()}${date.getMonth()}${date.getDay()}_${date.getHours()}${date.getMinutes()}${date.getSeconds()}`;
-        fs.writeFileSync(`./Debug/${dateFile}.txt`, this.msg);
+        fs.appendFileSync(this.nameFile, this.msg);
     };
 
     writeConsole = () =>{
