@@ -100,3 +100,12 @@ test('when no ending tags an response empty send', ()=>{
     const resultWaiting = {html : '', extraction : false, simpleTag: 'script'};
     expect(JSON.stringify(result)).toBe(JSON.stringify(resultWaiting));
 });
+
+test('extract when you start by space',()=>{
+    const html = ' <html class="client-nojs vector-feature-language-in-header-enabled" lang="fr" dir="ltr" version="HTML+RDFa 1.0"><span class="vector-dropdown-label-text">Menu principal</span></html>';
+    const extractTag = new ExtractTag();
+    const result = extractTag.extract(html);
+
+    const resultWaiting = {html : ' <html class="client-nojs vector-feature-language-in-header-enabled" lang="fr" dir="ltr" version="HTML+RDFa 1.0"><span class="vector-dropdown-label-text">Menu principal</span></html>', extraction : true, simpleTag: 'html'};
+    expect(JSON.stringify(result)).toBe(JSON.stringify(resultWaiting));
+}) 

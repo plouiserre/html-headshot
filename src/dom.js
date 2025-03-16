@@ -1,9 +1,10 @@
-import ExtractAllTags from "./extractAllTags"
-import AnalyzeTag from "./analyzeTag"
+import ExtractAllTags from "./extractAllTags.js"
+import AnalyzeTag from "./analyzeTag.js"
 
 export default class Dom{
-    constructor(){
-      
+    constructor(log){
+      this.log = log;
+      this.m = 0;
     }
 
     buildDom = (html)=>{
@@ -11,6 +12,12 @@ export default class Dom{
         const htmlToAnalyze = [];
         htmlToAnalyze.push(html);
         while(htmlToAnalyze.length > 0){
+            //------------ A SUPPRIMER ------------//
+            console.log(`m ${this.m}`);
+            if(this.m == 5){
+                console.log('stop!!!!');
+            }
+            //------------ A SUPPRIMER ------------//
             const tags = htmlToAnalyze.pop();
             const analyzes = this.workingPartDom(tags);
             for(let i = 0; i < analyzes.length; i ++){
@@ -19,12 +26,14 @@ export default class Dom{
                 if(!analyze.contentOnlyText)
                     htmlToAnalyze.push(analyze.content);
             }
+            this.m += 1;
         }
         return domResult;
     }
 
     workingPartDom = (html)=>{
         this.extractAllTags = new ExtractAllTags();
+        this.logsMessage(html);
         const tags = this.extractAllTags.extract(html);
         const analyzes = [];
         for(let i = 0; i < tags.length; i ++){
@@ -33,5 +42,14 @@ export default class Dom{
             analyzes.push(analyze);
         }
         return analyzes;
+    }
+
+    logsMessage = (html)=>{
+        if(this.m == 0){
+            this.log.write(`${this.m}: html analysé avant l'extract \n ${html}`);
+        }
+        else {
+            this.log.write(`\n\n\n${this.m}: html analysé avant l'extract \n ${html}`);
+        }
     }
 }
