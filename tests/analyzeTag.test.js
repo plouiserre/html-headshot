@@ -74,10 +74,10 @@ test('Analyze tag with one space before the opens', async()=>{
 
 test('Analyze tag with many levels with same closedTags', async()=>{
     const contentHtml = '<div id="siteNotice"><div class="vector-column-start"><div class="vector-main-menu-container"><div id="mw-navigation"><nav id="mw-panel" class="vector-main-menu-landmark" aria-label="Site"><div id="vector-main-menu-pinned-container" class="vector-pinned-container"></div></nav></div></div></div></div>';
-    const html = `<div class="vector-sitenotice-container">${contentHtml}</div>`;
+    const html = `<div class="vector-column-start">${contentHtml}</div>`;
     const analyzeTag = new AnalyzeTag();
     const result = analyzeTag.analyzeData(html);
 
-    const expected = {tagName : 'div', content:contentHtml, cssClass : '', cssId:'siteNotice',  contentOnlyText : false};
+    const expected = {tagName : 'div', content:contentHtml, cssClass : 'vector-column-start', cssId:'',  contentOnlyText : false};
     expect(JSON.stringify(expected)).toBe(JSON.stringify(result));
 });
