@@ -1,4 +1,4 @@
-import DeterminateContent from "./determinateContent";
+import DeterminateContent from "./determinateContent.js";
 
 //Maybe in the futur I will do not need some of properties in the final object
 export default class AnalyzeTag{
