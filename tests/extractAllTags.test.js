@@ -38,7 +38,14 @@ test('can extract two complexs divs with many many levels',()=>{
     expect(compareTwoArrays(result, resultWaiting)).toBe(true);
 });
 
+test('extract tags when it is finished by a space',()=>{
+    const html = '<div class="mw-page-container-inner"><div class="vector-sitenotice-container"><div id="siteNotice"></div></div><div class="vector-column-start"><div class="vector-main-menu-container"><div id="mw-navigation"><nav id="mw-panel" class="vector-main-menu-landmark" aria-label="Site"><div id="vector-main-menu-pinned-container" class="vector-pinned-container"></div></nav></div></div></div><div class="mw-content-container"><main id="content" class="mw-body"><header class="mw-body-header vector-page-tit…abled"><img src="/resources/assets/poweredby_mediawiki.svg" alt="Powered by MediaWiki" width="88" height="31" loading="lazy"></a><a href="https://www.semantic-mediawiki.org/wiki/Semantic_MediaWiki" class="cdx-button cdx-button--fake-button cdx-button--size-large cdx-button--fake-button--enabled"><img src="/extensions/SemanticMediaWiki/res/smw/assets/logo_footer.svg" alt="Powered by Semantic MediaWiki" class="smw-footer" width="88" height="31" loading="lazy"></a></li></ul></footer></div></div> ';
+    const extractAllTags = new ExtractAllTags();
+    const result = extractAllTags.extract(html);
 
+    const resultWaiting = ['<div class="mw-page-container-inner"><div class="vector-sitenotice-container"><div id="siteNotice"></div></div><div class="vector-column-start"><div class="vector-main-menu-container"><div id="mw-navigation"><nav id="mw-panel" class="vector-main-menu-landmark" aria-label="Site"><div id="vector-main-menu-pinned-container" class="vector-pinned-container"></div></nav></div></div></div><div class="mw-content-container"><main id="content" class="mw-body"><header class="mw-body-header vector-page-tit…abled"><img src="/resources/assets/poweredby_mediawiki.svg" alt="Powered by MediaWiki" width="88" height="31" loading="lazy"></a><a href="https://www.semantic-mediawiki.org/wiki/Semantic_MediaWiki" class="cdx-button cdx-button--fake-button cdx-button--size-large cdx-button--fake-button--enabled"><img src="/extensions/SemanticMediaWiki/res/smw/assets/logo_footer.svg" alt="Powered by Semantic MediaWiki" class="smw-footer" width="88" height="31" loading="lazy"></a></li></ul></footer></div></div>'];
+    expect(compareTwoArrays(result, resultWaiting)).toBe(true);
+});
 
 test('when no ending tags an response empty send', ()=>{
     const html = '<span class="vector-icon mw-ui-icon-userAdd mw-ui-icon-wikimedia-userAdd"></span><script>(function(){var className="client-js vector-feature-language-in-header';

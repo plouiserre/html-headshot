@@ -12,7 +12,7 @@ export default class ExtractAllTags{
     
     extract = (html)=>{
         const tags = [];
-        let htmlToAnalyze = html;
+        let htmlToAnalyze = html.trimEnd();
         while(htmlToAnalyze!==''){
             const extractTag = new ExtractTag();
             const tag = extractTag.extract(htmlToAnalyze);
