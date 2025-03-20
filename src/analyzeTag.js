@@ -57,7 +57,8 @@ export default class AnalyzeTag{
     determinateContent = ()=>{
         const determinateContent = new DeterminateContent(this.openTag, this.closeTag);
         this.content = determinateContent.calculate(this.allHtml);
-        if(this.content.includes('<'))
+        this.content = this.content.trimStart();
+        if(this.content[0]=='<')
             this.contentOnlyText = false;
     }
 
