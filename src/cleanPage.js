@@ -1,15 +1,15 @@
 export default class CleanPage{
-    constructor(html, simpleCaracter){
+    constructor(html, caractersToReplace){
         this.html = html;
-        this.simpleCaracter = simpleCaracter;
+        this.caractersToReplace = caractersToReplace;
         this.startCommentaries = [];
         this.endCommentaries = [];
     }
 
     deleteUselessElements = ()=>{
         let htmlCleaned = this.html;
-        for(let i = 0; i < this.simpleCaracter.length; i ++){
-            htmlCleaned =  htmlCleaned.replaceAll(this.simpleCaracter[i],'');
+        for(let i = 0; i < this.caractersToReplace.length; i ++){
+            htmlCleaned =  htmlCleaned.replaceAll(this.caractersToReplace[i],'');
         }
         this.html = htmlCleaned;
         htmlCleaned = this.deleteCommentaries();
