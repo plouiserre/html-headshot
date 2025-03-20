@@ -14,7 +14,7 @@ export default class Dom{
         while(htmlToAnalyze.length > 0){
             //------------ A SUPPRIMER ------------//
             console.log(`m ${this.m}`);
-            if(this.m == 4){
+            if(this.m == 17){
                 console.log('stop!!!!');
             }
             //------------ A SUPPRIMER ------------//

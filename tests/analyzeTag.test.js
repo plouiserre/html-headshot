@@ -81,3 +81,12 @@ test('Analyze tag with many levels with same closedTags', async()=>{
     const expected = {tagName : 'div', content:contentHtml, cssClass : 'vector-column-start', cssId:'',  contentOnlyText : false};
     expect(JSON.stringify(expected)).toBe(JSON.stringify(result));
 });
+
+test('Analyze tag when in content you have tag inside text', async()=>{
+    const html = `<li id="footer-info-copyright">Le contenu est disponible sous licence <a href="/Pok%C3%A9p%C3%A9dia:Copyrights" title="Poképédia:Copyrights">Paternité-Pas d'Utilisation Commerciale-Partage des Conditions Initiales à l'Identique 3.0</a> sauf mention contraire.</li>`;
+    const analyzeTag = new AnalyzeTag();
+    const result = analyzeTag.analyzeData(html);
+
+    const expected = {tagName : 'li', content:'Le contenu est disponible sous licence <a href="/Pok%C3%A9p%C3%A9dia:Copyrights" title="Poképédia:Copyrights">Paternité-Pas d\'Utilisation Commerciale-Partage des Conditions Initiales à l\'Identique 3.0</a> sauf mention contraire.', cssClass : '', cssId:'footer-info-copyright',  contentOnlyText : true};
+    expect(JSON.stringify(expected)).toBe(JSON.stringify(result));
+});
