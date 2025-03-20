@@ -1,12 +1,12 @@
 import CleanPage from "../src/cleanPage";
 
 
-test('Delete all \n and \t caracteres', async ()=>{
-    const html = '<div>Je suis ton père \n Tu me dois le respect !!!!! \t\t OK?? \n</div>';
-    const cleanPage = new CleanPage(html, ['\n', '\t']);
+test('Delete all \n and \t caracteres <br />', async ()=>{
+    const html = '<div>Je suis ton père \n Tu me dois le respect !!!!! <br /> \t\t OK?? \n</div>';
+    const cleanPage = new CleanPage(html, ['\n', '\t', '<br />']);
     const htmlCleaned = cleanPage.deleteUselessElements();
 
-    const expected = '<div>Je suis ton père  Tu me dois le respect !!!!!  OK?? </div>';
+    const expected = '<div>Je suis ton père  Tu me dois le respect !!!!!   OK?? </div>';
     expect(htmlCleaned).toBe(expected);
 });
 
