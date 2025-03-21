@@ -13,6 +13,7 @@ export default class CleanPage{
         }
         this.html = htmlCleaned;
         htmlCleaned = this.deleteCommentaries();
+        htmlCleaned = this.deleteSpecialCaractersInHtml(htmlCleaned);
         return htmlCleaned;
     }
 
@@ -49,5 +50,37 @@ export default class CleanPage{
             if(nextLetters === commentaryClosed)
                 this.endCommentaries.push(endCommentaryIndex);
         }
+    }
+
+    //si trop relou voir à mettre dans une classe particulière
+    deleteSpecialCaractersInHtml = (htmlCleaned) =>{
+        let isStartedCommentary = false;
+        let startIndexs = [];
+        let endIndexs = [];
+        let allTextsToReplace = [];
+        for(let i = 0; i < htmlCleaned.length; i ++){
+            const caracter = htmlCleaned[i];
+            if(caracter === "&"){
+                isStartedCommentary = true;
+                startIndexs.push(i);
+            }
+            if(isStartedCommentary && caracter === ";"){
+                isStartedCommentary = false;
+                endIndexs.push(i);
+            }
+        }
+        
+        for(let i = 0; i < startIndexs.length ; i++){
+            const startIndex = startIndexs[i];
+            const endIndex = endIndexs[i];
+            const specialCaracterToDelete = htmlCleaned.substring(startIndex, endIndex + 1);
+            allTextsToReplace.push(specialCaracterToDelete);
+        }
+
+        for(let i = 0; i < allTextsToReplace.length; i ++){
+            const replaceText = allTextsToReplace[i];
+            htmlCleaned = htmlCleaned.replace(replaceText, '');
+        }
+        return htmlCleaned;
     }
 }
