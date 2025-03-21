@@ -1,41 +1,40 @@
+//TODO when finish development in dom.js externalize each method in a class
 export default class CleanPage{
     constructor(html, caractersToReplace){
         this.html = html;
         this.caractersToReplace = caractersToReplace;
         this.startCommentaries = [];
         this.endCommentaries = [];
+        this.htmlCleaned = '';
     }
 
     deleteUselessElements = ()=>{
-        let htmlCleaned = this.html;
+        this.htmlCleaned = this.html;
         for(let i = 0; i < this.caractersToReplace.length; i ++){
-            htmlCleaned =  htmlCleaned.replaceAll(this.caractersToReplace[i],'');
+            this.htmlCleaned =  this.htmlCleaned.replaceAll(this.caractersToReplace[i],'');
         }
-        this.html = htmlCleaned;
-        htmlCleaned = this.deleteCommentaries();
-        return htmlCleaned;
+        this.deleteCommentaries();
+        this.deleteSpecialCaractersInHtml();
+        return this.htmlCleaned;
     }
 
     deleteCommentaries = () =>{
         this.listStartCommentaries();
         this.listEndCommentaries();
         if(this.startCommentaries.length != 0){
-            let htmlCleaned = this.html;
+            let htmlNotCleaned = this.htmlCleaned;
             for(let i = 0; i < this.startCommentaries.length; i++){
-                const commentary = this.html.substring(this.startCommentaries[i], this.endCommentaries[i]);
-                htmlCleaned = htmlCleaned.replace(commentary,'');
+                const commentary = this.htmlCleaned.substring(this.startCommentaries[i], this.endCommentaries[i]);
+                htmlNotCleaned = htmlNotCleaned.replace(commentary,'');
             }
-            return htmlCleaned;
-        }
-        else {
-            return this.html;
+            this.htmlCleaned = htmlNotCleaned;
         }
     }
 
     listStartCommentaries = () => {
         const commentaryOpen = '<!--';
-        for(let i = 0; i < this.html.length ; i++){
-            const nextLetters = this.html.substring(i, i + commentaryOpen.length);
+        for(let i = 0; i < this.htmlCleaned.length ; i++){
+            const nextLetters = this.htmlCleaned.substring(i, i + commentaryOpen.length);
             if(nextLetters === commentaryOpen)
                 this.startCommentaries.push(i);
         }
@@ -43,11 +42,41 @@ export default class CleanPage{
 
     listEndCommentaries = () => {
         const commentaryClosed = '-->';
-        for(let i = 0; i < this.html.length ; i++){
+        for(let i = 0; i < this.htmlCleaned.length ; i++){
             const endCommentaryIndex = i + commentaryClosed.length;
-            const nextLetters = this.html.substring(i, endCommentaryIndex);
+            const nextLetters = this.htmlCleaned.substring(i, endCommentaryIndex);
             if(nextLetters === commentaryClosed)
                 this.endCommentaries.push(endCommentaryIndex);
+        }
+    }
+    
+    deleteSpecialCaractersInHtml = () =>{
+        let isStartedCommentary = false;
+        let startIndexs = [];
+        let endIndexs = [];
+        let allTextsToReplace = [];
+        for(let i = 0; i < this.htmlCleaned.length; i ++){
+            const caracter = this.htmlCleaned[i];
+            if(caracter === "&"){
+                isStartedCommentary = true;
+                startIndexs.push(i);
+            }
+            if(isStartedCommentary && caracter === ";"){
+                isStartedCommentary = false;
+                endIndexs.push(i);
+            }
+        }
+        
+        for(let i = 0; i < startIndexs.length ; i++){
+            const startIndex = startIndexs[i];
+            const endIndex = endIndexs[i];
+            const specialCaracterToDelete = this.htmlCleaned.substring(startIndex, endIndex + 1);
+            allTextsToReplace.push(specialCaracterToDelete);
+        }
+
+        for(let i = 0; i < allTextsToReplace.length; i ++){
+            const replaceText = allTextsToReplace[i];
+            this.htmlCleaned = this.htmlCleaned.replace(replaceText, '');
         }
     }
 }
