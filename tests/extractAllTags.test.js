@@ -55,6 +55,16 @@ test('when no ending tags an response empty send', ()=>{
 });
 
 
+
+test('when brackets are presents and for the selection', ()=>{
+    const html = '<i><a href="/Liste_des_Pok%C3%A9mon_recrutables_de_Pok%C3%A9mon_Caf%C3%A9_ReMix" title="Liste des Pokémon recrutables de Pokémon Café ReMix">Café ReMix</a></i> (<a href="/Liste_des_Pok%C3%A9mon_recrutables_de_Pok%C3%A9mon_Caf%C3%A9_ReMix/1.110.0" title="Liste des Pokémon recrutables de Pokémon Café ReMix/1.110.0">1.110.0</a>)';
+    const extractAllTags = new ExtractAllTags();
+    const result = extractAllTags.extract(html);
+
+    const resultWaiting = ['<i><a href="/Liste_des_Pok%C3%A9mon_recrutables_de_Pok%C3%A9mon_Caf%C3%A9_ReMix" title="Liste des Pokémon recrutables de Pokémon Café ReMix">Café ReMix</a></i>','<a href="/Liste_des_Pok%C3%A9mon_recrutables_de_Pok%C3%A9mon_Caf%C3%A9_ReMix/1.110.0" title="Liste des Pokémon recrutables de Pokémon Café ReMix/1.110.0">1.110.0</a>'];
+    expect(compareTwoArrays(result, resultWaiting)).toBe(true);
+});
+
 const compareTwoArrays = (firstArray, secondArray)=>{
     if(firstArray.length!== secondArray.length)
         return false;

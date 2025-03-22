@@ -5,6 +5,7 @@ export default class ExtractTag{
         this.openTag = '';
         this.simpleOpenTag = '';
         this.closedTag = '';
+        this.deleteAllRest = false;
         this.forbiddenTag = ['!DOCTYPE', 'meta','link', 'input', 'img'];
     }
 
@@ -19,7 +20,7 @@ export default class ExtractTag{
         else{
             this.searchTagClosed(html);
             const tagHtml = this.extractHtml(html);
-            const tag = {html :tagHtml, extraction : tagHtml ===''? false : true, simpleTag : this.simpleOpenTag };
+            const tag = {html :tagHtml, extraction : tagHtml ===''? false : true, simpleTag : this.simpleOpenTag, deleteAllRest : this.deleteAllRest };
             return tag;
         }
     }
@@ -67,8 +68,34 @@ export default class ExtractTag{
     }
 
     extractHtml = (html)=>{
-        const tag = html.substring(0, this.indexEnd);
-        return tag;
+        const startTag = this.determineIfBracketFirstImportantElement(html);
+        if(!startTag.isBracket){
+            const tag = html.substring(0, this.indexEnd);
+            return tag;
+        }
+        else{
+            const tag = html.substring(startTag.elementStarting, this.indexEnd);
+            return tag;
+        }
+    }
+
+    determineIfBracketFirstImportantElement = (html) =>{
+        let isBracket = false;
+        let elementStarting = 0;
+        for(let i = 0; i < html.length; i++){
+            const firstCaracter = html[i];
+            if(firstCaracter == ' '){
+                continue;
+            }
+            else{
+                if(firstCaracter == '('){
+                    isBracket = true;
+                    elementStarting = i + 1;
+                    this.deleteAllRest = true;
+                }
+                return { isBracket : isBracket, elementStarting : elementStarting};
+            }
+        }
     }
 
     constructClosedTag = ()=>{

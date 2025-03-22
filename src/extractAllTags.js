@@ -20,7 +20,10 @@ export default class ExtractAllTags{
                 tags.push(tag.html);
             else if(tag.html ==='')
                 throw new Error("La balise "+tag.simpleTag+" ne se ferme pas!!!" );
-            htmlToAnalyze = htmlToAnalyze.replace(tag.html, '');
+            if(tag.deleteAllRest)
+                htmlToAnalyze = '';
+            else
+                htmlToAnalyze = htmlToAnalyze.replace(tag.html, '');
         }
         return tags;
     }
