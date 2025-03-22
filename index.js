@@ -7,7 +7,7 @@ const log = new Log({type : 'file'});
 const suckPageHtml = new suckPage("https://www.pokepedia.fr/Liste_des_Pok%C3%A9mon_de_la_troisi%C3%A8me_g%C3%A9n%C3%A9ration");
 const html = await suckPageHtml.getPage();
 console.log(`taille html ${html.length}`);
-const cleanPageHtml = new CleanPage(html, ['\n', '\t', '<br />']);
+const cleanPageHtml = new CleanPage(html, ['\n', '\t', '<br />', '← ', ' →']);
 const htmlCleaned = cleanPageHtml.deleteUselessElements();
 const domPage = new Dom(log);
 const domResult = domPage.buildDom(htmlCleaned);
