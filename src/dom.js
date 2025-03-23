@@ -12,12 +12,6 @@ export default class Dom{
         const htmlToAnalyze = [];
         htmlToAnalyze.push(html);
         while(htmlToAnalyze.length > 0){
-            //------------ A SUPPRIMER ------------//
-            console.log(`m ${this.m}`);
-            if(this.m == 2395){
-                console.log('stop!!!!');
-            }
-            //------------ A SUPPRIMER ------------//
             const tags = htmlToAnalyze.pop();
             const analyzes = this.workingPartDom(tags);
             for(let i = 0; i < analyzes.length; i ++){

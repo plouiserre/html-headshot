@@ -24,8 +24,16 @@ export default class ExtractAllTags{
                 htmlToAnalyze = '';
             else
                 htmlToAnalyze = htmlToAnalyze.replace(tag.html, '');
+            htmlToAnalyze = this.emptyHtmlIfOnlySpace(htmlToAnalyze);
         }
         return tags;
+    }
+
+    emptyHtmlIfOnlySpace= (html) =>{
+        if(html.replace(/\s/g, '').length == 0){
+            html = '';
+        }
+        return html;
     }
 
     searchTagOpen = (html)=>{
