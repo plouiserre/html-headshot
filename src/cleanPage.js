@@ -11,7 +11,7 @@ export default class CleanPage{
     deleteUselessElements = ()=>{
         this.htmlCleaned = this.html;
         for(let i = 0; i < this.caractersToReplace.length; i ++){
-            this.htmlCleaned =  this.htmlCleaned.replaceAll(this.caractersToReplace[i],'');
+            this.htmlCleaned =  this.htmlCleaned.replaceAll(this.caractersToReplace[i],' ');
         }
         this.deleteCommentaries();
         this.deleteSpecialCaractersInHtml();
