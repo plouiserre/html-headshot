@@ -54,14 +54,21 @@ test('when no ending tags an response empty send', ()=>{
     expect(()=>extractAllTags.extract(html)).toThrow("La balise script ne se ferme pas!!!");
 });
 
-
-
 test('when brackets are presents and for the selection', ()=>{
     const html = '<i><a href="/Liste_des_Pok%C3%A9mon_recrutables_de_Pok%C3%A9mon_Caf%C3%A9_ReMix" title="Liste des Pokémon recrutables de Pokémon Café ReMix">Café ReMix</a></i> (<a href="/Liste_des_Pok%C3%A9mon_recrutables_de_Pok%C3%A9mon_Caf%C3%A9_ReMix/1.110.0" title="Liste des Pokémon recrutables de Pokémon Café ReMix/1.110.0">1.110.0</a>)';
     const extractAllTags = new ExtractAllTags();
     const result = extractAllTags.extract(html);
 
     const resultWaiting = ['<i><a href="/Liste_des_Pok%C3%A9mon_recrutables_de_Pok%C3%A9mon_Caf%C3%A9_ReMix" title="Liste des Pokémon recrutables de Pokémon Café ReMix">Café ReMix</a></i>','<a href="/Liste_des_Pok%C3%A9mon_recrutables_de_Pok%C3%A9mon_Caf%C3%A9_ReMix/1.110.0" title="Liste des Pokémon recrutables de Pokémon Café ReMix/1.110.0">1.110.0</a>'];
+    expect(compareTwoArrays(result, resultWaiting)).toBe(true);
+});
+
+test('get tags when forbidden tags are followed by blank space', ()=>{
+    const html = '<div class="cdx-text-input cdx-text-input--has-start-icon"> <input class="cdx-text-input__input" type="search" name="search" placeholder="Rechercher sur Poképédia" aria-label="Rechercher sur Poképédia" autocapitalize="sentences" title="Rechercher sur Poképédia [f]" accesskey="f" id="searchInput" > <span class="cdx-text-input__icon cdx-text-input__start-icon"></span> </div> <input type="hidden" name="title" value="Spécial:Recherche"> ';
+    const extractAllTags = new ExtractAllTags();
+    const result = extractAllTags.extract(html);
+
+    const resultWaiting = ['<div class="cdx-text-input cdx-text-input--has-start-icon"> <input class="cdx-text-input__input" type="search" name="search" placeholder="Rechercher sur Poképédia" aria-label="Rechercher sur Poképédia" autocapitalize="sentences" title="Rechercher sur Poképédia [f]" accesskey="f" id="searchInput" > <span class="cdx-text-input__icon cdx-text-input__start-icon"></span> </div>'];
     expect(compareTwoArrays(result, resultWaiting)).toBe(true);
 });
 
