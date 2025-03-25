@@ -20,7 +20,6 @@ export default class Dom{
                 if(!analyze.contentOnlyText)
                     htmlToAnalyze.push(analyze.content);
             }
-            this.m += 1;
         }
         return domResult;
     }
