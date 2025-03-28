@@ -1,3 +1,5 @@
+import ExtractHtml from "./extractHtml";
+
 export default class ExtractTag{
     
     constructor(){
@@ -20,7 +22,7 @@ export default class ExtractTag{
         else{
             this.searchTagClosed(html);
             const tagHtml = this.extractHtml(html);
-            const tag = {html :tagHtml, extraction : tagHtml ===''? false : true, simpleTag : this.simpleOpenTag, deleteAllRest : this.deleteAllRest };
+            const tag = {html :tagHtml, extraction : tagHtml ===''? false : true, simpleTag : this.simpleOpenTag };
             return tag;
         }
     }
@@ -68,36 +70,11 @@ export default class ExtractTag{
     }
 
     extractHtml = (html)=>{
-        const startTag = this.determineIfBracketFirstImportantElement(html);
-        if(!startTag.isBracket){
-            const tag = html.substring(0, this.indexEnd);
-            return tag;
-        }
-        else{
-            const tag = html.substring(startTag.elementStarting, this.indexEnd);
-            return tag;
-        }
+        const extractHtml = new ExtractHtml(this.indexEnd);
+        const tag = extractHtml.extract(html);
+        return tag;
     }
-
-    determineIfBracketFirstImportantElement = (html) =>{
-        let isBracket = false;
-        let elementStarting = 0;
-        for(let i = 0; i < html.length; i++){
-            const firstCaracter = html[i];
-            if(firstCaracter == ' '){
-                continue;
-            }
-            else{
-                if(firstCaracter == '('){
-                    isBracket = true;
-                    elementStarting = i + 1;
-                    this.deleteAllRest = true;
-                }
-                return { isBracket : isBracket, elementStarting : elementStarting};
-            }
-        }
-    }
-
+    
     constructClosedTag = ()=>{
         const simpleOpenTag = this.openTag.replace('<','').split(' ')[0].replace('>','');
         this.closedTag = '</'+simpleOpenTag+'>';
