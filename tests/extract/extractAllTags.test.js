@@ -1,4 +1,4 @@
-import ExtractAllTags from "../src/extractAllTags";
+import ExtractAllTags from "../../src/extract/extractAllTags";
 
 // //TODO ajouter un test ultra complexe en one shot
 

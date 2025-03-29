@@ -1,4 +1,4 @@
-import ExtractTag from "../src/extractTag";
+import ExtractTag from "../../src/extract/extractTag";
 
 test('can analyze simple Tag', ()=>{
     const html = '<title>Liste des Pokémon de la première génération — Poképédia</title><script>(function(){var className="client-js vector-feature-language-in-header';

@@ -1,4 +1,4 @@
-import ExtractAllTags from "./extractAllTags.js"
+import ExtractAllTags from "./extract/extractAllTags.js"
 import AnalyzeTag from "./analyzeTag.js"
 
 export default class Dom{
