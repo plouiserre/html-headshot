@@ -1,4 +1,4 @@
-import ExtractHtml from "../src/extractHtml";
+import ExtractHtml from "../../src/extract/extractHtml";
 
 test('can extract simple html', ()=>{
     const html = '<title>Liste des Pokémon de la première génération — Poképédia</title>';

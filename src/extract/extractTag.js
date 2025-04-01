@@ -1,48 +1,52 @@
-import ExtractTag from "./extractTag.js";
+import ExtractHtml from "./extractHtml.js";
 
-export default class ExtractAllTags{
+export default class ExtractTag{
+    
     constructor(){
-        this.isSimpleTag = false;
         this.indexEnd = 0;
         this.openTag = '';
+        this.simpleOpenTag = '';
         this.closedTag = '';
-        this.isForbiddenTag = false;
+        this.deleteAllRest = false;
         this.forbiddenTag = ['!DOCTYPE', 'meta','link', 'input', 'img'];
     }
-    
+
     extract = (html)=>{
-        const tags = [];
-        let htmlToAnalyze = html.trimEnd();
-        while(htmlToAnalyze!==''){
-            const extractTag = new ExtractTag();
-            const tag = extractTag.extract(htmlToAnalyze);
-            if(tag.extraction && tag.html !=='')
-                tags.push(tag.html);
-            else if(tag.html ==='')
-                throw new Error("La balise "+tag.simpleTag+" ne se ferme pas!!!" );
-            if(tag.deleteAllRest)
-                htmlToAnalyze = '';
-            else
-                htmlToAnalyze = htmlToAnalyze.replace(tag.html, '');
-            htmlToAnalyze = this.emptyHtmlIfOnlySpace(htmlToAnalyze);
+        this.searchTagOpen(html);
+        this.constructOpenTag();
+        const forbiddenTag = this.identifyForbiddenTag();
+        if(forbiddenTag){
+            const tag = {html : this.openTag, extraction : false, simpleTag : this.simpleOpenTag};
+            return tag;
         }
-        return tags;
+        else{
+            this.searchTagClosed(html);
+            const tagHtml = this.extractHtml(html);
+            const tag = {html :tagHtml, extraction : tagHtml ===''? false : true, simpleTag : this.simpleOpenTag };
+            return tag;
+        }
     }
 
-    emptyHtmlIfOnlySpace= (html) =>{
-        if(html.replace(/\s/g, '').length == 0){
-            html = '';
-        }
-        return html;
+    constructOpenTag=()=>{
+        this.simpleOpenTag = this.openTag.replace('<','').split(' ')[0].replace('>','');
     }
 
     searchTagOpen = (html)=>{
+        let startSaveOpenTag = false;
         for(let i = 0; i < html.length; i ++){
             const caracter = html[i];
-            this.openTag += caracter;
-            if(caracter == '>')
-                break;
+            if(caracter=='<')
+                startSaveOpenTag = true;
+            if(startSaveOpenTag){
+                this.openTag += caracter;
+                if(caracter == '>')
+                    break;
+            }
         }
+    }
+
+    identifyForbiddenTag = ()=>{
+        return this.forbiddenTag.includes(this.simpleOpenTag);
     }
 
     searchTagClosed = (html)=>{
@@ -66,10 +70,11 @@ export default class ExtractAllTags{
     }
 
     extractHtml = (html)=>{
-        const tag = html.substring(0, this.indexEnd);
+        const extractHtml = new ExtractHtml(this.indexEnd);
+        const tag = extractHtml.extract(html);
         return tag;
     }
-
+    
     constructClosedTag = ()=>{
         const simpleOpenTag = this.openTag.replace('<','').split(' ')[0].replace('>','');
         this.closedTag = '</'+simpleOpenTag+'>';
@@ -78,12 +83,4 @@ export default class ExtractAllTags{
     getOpenBaseTag = ()=>{
         return this.closedTag.replace('</','<').replace('>','');
     }
-
-
-    deleteHtmlUsed = (html)=>{
-        const htmlUsed = html.substring(0, this.indexEnd);
-        const htmlFresch = html.replace(htmlUsed, '');
-        return htmlFresch;
-    }
-
 }

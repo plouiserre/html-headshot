@@ -1,52 +1,46 @@
-import ExtractHtml from "./extractHtml";
+import ExtractTag from "./extractTag.js";
+import DeleteExtractHtml from "./deleteExtractHtml.js";
 
-export default class ExtractTag{
-    
+export default class ExtractAllTags{
     constructor(){
+        this.isSimpleTag = false;
         this.indexEnd = 0;
         this.openTag = '';
-        this.simpleOpenTag = '';
         this.closedTag = '';
-        this.deleteAllRest = false;
+        this.isForbiddenTag = false;
         this.forbiddenTag = ['!DOCTYPE', 'meta','link', 'input', 'img'];
     }
-
+    
     extract = (html)=>{
-        this.searchTagOpen(html);
-        this.constructOpenTag();
-        const forbiddenTag = this.identifyForbiddenTag();
-        if(forbiddenTag){
-            const tag = {html : this.openTag, extraction : false, simpleTag : this.simpleOpenTag};
-            return tag;
+        const tags = [];
+        let htmlToAnalyze = html.trimEnd();
+        while(htmlToAnalyze!==''){
+            const extractTag = new ExtractTag();
+            const tag = extractTag.extract(htmlToAnalyze);
+            if(tag.extraction && tag.html !=='')
+                tags.push(tag.html);
+            else if(tag.html ==='')
+                throw new Error("La balise "+tag.simpleTag+" ne se ferme pas!!!" );
+            const deleteExtractHtml = new DeleteExtractHtml(htmlToAnalyze, tag.html);
+            htmlToAnalyze = deleteExtractHtml.determineHtmlRemaining();
         }
-        else{
-            this.searchTagClosed(html);
-            const tagHtml = this.extractHtml(html);
-            const tag = {html :tagHtml, extraction : tagHtml ===''? false : true, simpleTag : this.simpleOpenTag };
-            return tag;
-        }
+        return tags;
     }
 
-    constructOpenTag=()=>{
-        this.simpleOpenTag = this.openTag.replace('<','').split(' ')[0].replace('>','');
+    emptyHtmlIfOnlySpace= (html) =>{
+        if(html.replace(/\s/g, '').length == 0){
+            html = '';
+        }
+        return html;
     }
 
     searchTagOpen = (html)=>{
-        let startSaveOpenTag = false;
         for(let i = 0; i < html.length; i ++){
             const caracter = html[i];
-            if(caracter=='<')
-                startSaveOpenTag = true;
-            if(startSaveOpenTag){
-                this.openTag += caracter;
-                if(caracter == '>')
-                    break;
-            }
+            this.openTag += caracter;
+            if(caracter == '>')
+                break;
         }
-    }
-
-    identifyForbiddenTag = ()=>{
-        return this.forbiddenTag.includes(this.simpleOpenTag);
     }
 
     searchTagClosed = (html)=>{
@@ -70,11 +64,10 @@ export default class ExtractTag{
     }
 
     extractHtml = (html)=>{
-        const extractHtml = new ExtractHtml(this.indexEnd);
-        const tag = extractHtml.extract(html);
+        const tag = html.substring(0, this.indexEnd);
         return tag;
     }
-    
+
     constructClosedTag = ()=>{
         const simpleOpenTag = this.openTag.replace('<','').split(' ')[0].replace('>','');
         this.closedTag = '</'+simpleOpenTag+'>';
@@ -83,4 +76,12 @@ export default class ExtractTag{
     getOpenBaseTag = ()=>{
         return this.closedTag.replace('</','<').replace('>','');
     }
+
+
+    deleteHtmlUsed = (html)=>{
+        const htmlUsed = html.substring(0, this.indexEnd);
+        const htmlFresch = html.replace(htmlUsed, '');
+        return htmlFresch;
+    }
+
 }
