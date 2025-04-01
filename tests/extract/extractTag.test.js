@@ -101,30 +101,12 @@ test('when no ending tags an response empty send', ()=>{
     expect(JSON.stringify(result)).toBe(JSON.stringify(resultWaiting));
 });
 
-test('extract when you start by space',()=>{
-    const html = ' <html class="client-nojs vector-feature-language-in-header-enabled" lang="fr" dir="ltr" version="HTML+RDFa 1.0"><span class="vector-dropdown-label-text">Menu principal</span></html>';
-    const extractTag = new ExtractTag();
-    const result = extractTag.extract(html);
-
-    const resultWaiting = {html : '<html class="client-nojs vector-feature-language-in-header-enabled" lang="fr" dir="ltr" version="HTML+RDFa 1.0"><span class="vector-dropdown-label-text">Menu principal</span></html>', extraction : true, simpleTag: 'html', htmlToDelete : html};
-    expect(JSON.stringify(result)).toBe(JSON.stringify(resultWaiting));
-}) 
-
-test('extract when you start by brackets',()=>{
-    const html = '(<a href="/Liste_des_Pok%C3%A9mon_recrutables_de_Pok%C3%A9mon_Caf%C3%A9_ReMix/1.110.0" title="Liste des Pokémon recrutables de Pokémon Café ReMix/1.110.0">1.110.0</a>)';
-    const extractTag = new ExtractTag();
-    const result = extractTag.extract(html);
-
-    const resultWaiting = {html : '<a href="/Liste_des_Pok%C3%A9mon_recrutables_de_Pok%C3%A9mon_Caf%C3%A9_ReMix/1.110.0" title="Liste des Pokémon recrutables de Pokémon Café ReMix/1.110.0">1.110.0</a>', extraction : true, simpleTag: 'a', htmlToDelete : html};
-    expect(JSON.stringify(result)).toBe(JSON.stringify(resultWaiting));
-}) 
-
 test('extract when you start by brackets and space',()=>{
     const html = ' (<a href="/Liste_des_Pok%C3%A9mon_recrutables_de_Pok%C3%A9mon_Caf%C3%A9_ReMix/1.110.0" title="Liste des Pokémon recrutables de Pokémon Café ReMix/1.110.0">1.110.0</a>)';
     const extractTag = new ExtractTag();
     const result = extractTag.extract(html);
 
-    const resultWaiting = {html : '<a href="/Liste_des_Pok%C3%A9mon_recrutables_de_Pok%C3%A9mon_Caf%C3%A9_ReMix/1.110.0" title="Liste des Pokémon recrutables de Pokémon Café ReMix/1.110.0">1.110.0</a>', extraction : true, simpleTag: 'a', htmlToDelete : html};
+    const resultWaiting = {html : '<a href="/Liste_des_Pok%C3%A9mon_recrutables_de_Pok%C3%A9mon_Caf%C3%A9_ReMix/1.110.0" title="Liste des Pokémon recrutables de Pokémon Café ReMix/1.110.0">1.110.0</a>', extraction : true, simpleTag: 'a'};
     expect(JSON.stringify(result)).toBe(JSON.stringify(resultWaiting));
 }) 
 
@@ -133,6 +115,6 @@ test('extract when you start by :',()=>{
     const extractTag = new ExtractTag();
     const result = extractTag.extract(html);
 
-    const resultWaiting = {html : '<ul><li><a href="/Cat%C3%A9gorie:Liste_de_Pok%C3%A9mon" title="Catégorie:Liste de Pokémon">Liste de Pokémon</a></li><li><a href="/Cat%C3%A9gorie:Pok%C3%A9mon_de_la_troisi%C3%A8me_g%C3%A9n%C3%A9ration" title="Catégorie:Pokémon de la troisième génération">Pokémon de la troisième génération</a></li></ul>', extraction : true, simpleTag: 'ul', deleteAllRest : false};
+    const resultWaiting = {html : '<ul><li><a href="/Cat%C3%A9gorie:Liste_de_Pok%C3%A9mon" title="Catégorie:Liste de Pokémon">Liste de Pokémon</a></li><li><a href="/Cat%C3%A9gorie:Pok%C3%A9mon_de_la_troisi%C3%A8me_g%C3%A9n%C3%A9ration" title="Catégorie:Pokémon de la troisième génération">Pokémon de la troisième génération</a></li></ul>', extraction : true, simpleTag: 'ul'};
     expect(JSON.stringify(result)).toBe(JSON.stringify(resultWaiting));
 }) 

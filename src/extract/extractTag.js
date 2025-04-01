@@ -1,4 +1,4 @@
-import ExtractHtml from "./extractHtml";
+import ExtractHtml from "./extractHtml.js";
 
 export default class ExtractTag{
     

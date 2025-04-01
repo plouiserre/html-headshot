@@ -1,4 +1,5 @@
 import ExtractTag from "./extractTag.js";
+import DeleteExtractHtml from "./deleteExtractHtml.js";
 
 export default class ExtractAllTags{
     constructor(){
@@ -20,11 +21,8 @@ export default class ExtractAllTags{
                 tags.push(tag.html);
             else if(tag.html ==='')
                 throw new Error("La balise "+tag.simpleTag+" ne se ferme pas!!!" );
-            if(tag.deleteAllRest)
-                htmlToAnalyze = '';
-            else
-                htmlToAnalyze = htmlToAnalyze.replace(tag.html, '');
-            htmlToAnalyze = this.emptyHtmlIfOnlySpace(htmlToAnalyze);
+            const deleteExtractHtml = new DeleteExtractHtml(htmlToAnalyze, tag.html);
+            htmlToAnalyze = deleteExtractHtml.determineHtmlRemaining();
         }
         return tags;
     }
