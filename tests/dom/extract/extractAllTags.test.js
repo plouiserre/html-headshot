@@ -1,4 +1,4 @@
-import ExtractAllTags from "../../src/extract/extractAllTags";
+import ExtractAllTags from "../../../src/dom/extract/extractAllTags";
 
 test('can analyze two tags following each other', ()=>{
     const html = '<span class="vector-icon mw-ui-icon-userAdd mw-ui-icon-wikimedia-userAdd"></span><span>Créer un compte</span>';

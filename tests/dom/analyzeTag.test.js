@@ -1,4 +1,4 @@
-import AnalyzeTag from '../src/analyzeTag';
+import AnalyzeTag from "../../src/dom/analyzeTag";
 
 test('Analyze simple Tag without anything', ()=>{
     const html = '<title>Liste des Pokémon de la première génération — Poképédia</title>';

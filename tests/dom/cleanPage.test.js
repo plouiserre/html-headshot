@@ -1,4 +1,4 @@
-import CleanPage from "../src/cleanPage";
+import CleanPage from "../../src/dom/cleanPage";
 
 
 test('Delete all \n and \t caracteres <br />', async ()=>{

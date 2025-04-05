@@ -1,4 +1,4 @@
-import DeleteExtractHtml from "../../src/extract/deleteExtractHtml";
+import DeleteExtractHtml from "../../../src/dom/extract/deleteExtractHtml";
 
 test('can determine remaining Html when the extraction equal the beginning html', ()=>{
     const html = '<span class="vector-icon mw-ui-icon-userAdd mw-ui-icon-wikimedia-userAdd"></span><span>Créer un compte</span>';

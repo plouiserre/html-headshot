@@ -1,4 +1,4 @@
-import DeterminateContent from "../src/determinateContent";
+import DeterminateContent from "../../src/dom/determinateContent";
 
 test('Determinate Content in simple div with simple text', async()=>{
     const content = 'Hello World';
