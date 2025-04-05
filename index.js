@@ -1,6 +1,6 @@
-import suckPage from "./src/suckPage.js";
-import Dom from "./src/dom.js"
-import CleanPage from "./src/cleanPage.js";
+import suckPage from "./src/dom/suckPage.js";
+import Dom from "./src/dom/dom.js";
+import CleanPage from "./src/dom/cleanPage.js";
 import Log from "./src/log.js";
 
 const log = new Log({type : 'file'});

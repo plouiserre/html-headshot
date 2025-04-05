@@ -1,4 +1,4 @@
-import Dom from "../src/dom";
+import Dom from '../../src/dom/dom.js';
 import {jest} from '@jest/globals';
 
 test('Build Dom simple html', ()=>{
