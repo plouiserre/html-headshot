@@ -1,20 +1,33 @@
 export default class Request{
     constructor(domResults){
         this.domResults = domResults;
+        this.type = '';
     }
 
     find = (parameters) =>{
-        if(parameters.type === 'id'){
-            return this.findById(parameters.value);
+        const type = this.detectTypeFinding(parameters);
+        const value = type === 'tagName' ? parameters : parameters.substring(1, parameters.length);
+        if(type === 'id'){
+            return this.findById(value);
         }
-        else if(parameters.type === 'class'){
-            return this.findByCssClass(parameters.value);
+        else if(type === 'class'){
+            return this.findByCssClass(value);
         }
-        else if(parameters.type ==='tagName'){
-            return this.findByTag(parameters.value);
+        else if(type ==='tagName'){
+            return this.findByTag(value);
         }
         return null;
     } 
+
+    detectTypeFinding = (parameters) =>{
+        const firstCaracter = parameters[0];
+        if(firstCaracter === ".")
+            return 'id';
+        else if(firstCaracter === "#")
+            return 'class';
+        else
+            return 'tagName';
+    }
 
     findById = (cssId)=>{
         let tags = [];
