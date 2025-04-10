@@ -23,6 +23,7 @@ export default class AnalyzeTag{
         this.determinateContent();
         this.determinateCssClass();
         this.determinateIdCss();
+        this.determineCompleteTag();
         this.constructAnalyze();
         return this.analyze;
     }
@@ -98,10 +99,15 @@ export default class AnalyzeTag{
         }
         return attributValue;
     }
+
+    determineCompleteTag = ()=>{
+        this.completeTag = this.allHtml;
+    }
     
     constructAnalyze=()=>{
         this.analyze = {
             tagName : this.tag,
+            completeTag : this.completeTag,
             content : this.content,
             cssClass : this.cssClass,
             cssId : this.cssId,
