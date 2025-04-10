@@ -9,8 +9,8 @@ test('Build Dom simple html', ()=>{
     const dom = new Dom(mockDependency);
     const result = dom.buildDom(html);
 
-    const expected = [{tagName : 'h1', completeTag : html,  content: '<span class="mw-page-title-main">Liste des Pokémon de la première génération</span>', cssClass:'firstHeading mw-first-heading', cssId : '', "contentOnlyText":false},
-        {tagName : 'span', completeTag : subTag, content : 'Liste des Pokémon de la première génération', cssClass : 'mw-page-title-main', cssId : '', contentOnlyText:true}];
+    const expected = [{tagName : 'h1', completeTag : html,  parentTag : '', content: '<span class="mw-page-title-main">Liste des Pokémon de la première génération</span>', cssClass:'firstHeading mw-first-heading', cssId : '', "contentOnlyText":false},
+        {tagName : 'span', completeTag : subTag, parentTag : html, content : 'Liste des Pokémon de la première génération', cssClass : 'mw-page-title-main', cssId : '', contentOnlyText:true}];
     expect(CompareTagObject(expected,result)).toBe(true);
 });
 
@@ -24,10 +24,10 @@ test('Build Dom many levels html', ()=>{
     const dom = new Dom(mockDependency);
     const result = dom.buildDom(html);
 
-    const expected = [{tagName : 'li', completeTag : html, content:'<a href="/index.php?title=Sp%C3%A9cial:Cr%C3%A9er_un_compte&amp;returnto=Liste+des+Pok%C3%A9mon+de+la+premi%C3%A8re+g%C3%A9n%C3%A9ration" title="Nous vous encourageons à créer un compte utilisateur et vous connecter ; ce n’est cependant pas obligatoire."><span class="vector-icon mw-ui-icon-userAdd mw-ui-icon-wikimedia-userAdd"></span><span>Créer un compte</span></a>', cssClass : 'user-links-collapsible-item mw-list-item', cssId : 'pt-createaccount', contentOnlyText : false},
-        {tagName : 'a', completeTag : aLink, content:'<span class="vector-icon mw-ui-icon-userAdd mw-ui-icon-wikimedia-userAdd"></span><span>Créer un compte</span>', cssClass : '', cssId : '', contentOnlyText : false},
-        {tagName : 'span', completeTag :  firstSpan, content:'', cssClass:'vector-icon mw-ui-icon-userAdd mw-ui-icon-wikimedia-userAdd', cssId: '', contentOnlyText : true},
-        {tagName : 'span', completeTag : secondSpan, content:'Créer un compte', cssClass:'', cssId:'', contentOnlyText : true}];
+    const expected = [{tagName : 'li', completeTag : html, parentTag : '' , content:'<a href="/index.php?title=Sp%C3%A9cial:Cr%C3%A9er_un_compte&amp;returnto=Liste+des+Pok%C3%A9mon+de+la+premi%C3%A8re+g%C3%A9n%C3%A9ration" title="Nous vous encourageons à créer un compte utilisateur et vous connecter ; ce n’est cependant pas obligatoire."><span class="vector-icon mw-ui-icon-userAdd mw-ui-icon-wikimedia-userAdd"></span><span>Créer un compte</span></a>', cssClass : 'user-links-collapsible-item mw-list-item', cssId : 'pt-createaccount', contentOnlyText : false},
+        {tagName : 'a', completeTag : aLink, parentTag : html, content:'<span class="vector-icon mw-ui-icon-userAdd mw-ui-icon-wikimedia-userAdd"></span><span>Créer un compte</span>', cssClass : '', cssId : '', contentOnlyText : false},
+        {tagName : 'span', completeTag :  firstSpan, parentTag : aLink, content:'', cssClass:'vector-icon mw-ui-icon-userAdd mw-ui-icon-wikimedia-userAdd', cssId: '', contentOnlyText : true},
+        {tagName : 'span', completeTag : secondSpan, parentTag : aLink, content:'Créer un compte', cssClass:'', cssId:'', contentOnlyText : true}];
     expect(CompareTagObject(expected,result)).toBe(true);
 });
 
@@ -48,16 +48,16 @@ test('Build Dom many more levels html', ()=>{
     const dom = new Dom(mockDependency);
     const result = dom.buildDom(html);
 
-    const expected = [{tagName : 'div', completeTag : html, content:'<ul class="vector-menu-content-list"><li id="pt-createaccount" class="user-links-collapsible-item mw-list-item"><a href="/index.php?title=Sp%C3%A9cial:Cr%C3%A9er_un_compte&amp;returnto=Liste+des+Pok%C3%A9mon+de+la+premi%C3%A8re+g%C3%A9n%C3%A9ration" title="Nous vous encourageons à créer un compte utilisateur et vous connecter ; ce n’est cependant pas obligatoire."><span class="vector-icon mw-ui-icon-userAdd mw-ui-icon-wikimedia-userAdd"></span><span>Créer un compte</span></a></li><li id="pt-login" class="user-links-collapsible-item mw-list-item"><a href="/index.php?title=Sp%C3%A9cial:Connexion&amp;returnto=Liste+des+Pok%C3%A9mon+de+la+premi%C3%A8re+g%C3%A9n%C3%A9ration" title="Nous vous encourageons à vous connecter ; ce n’est cependant pas obligatoire. [o]" accesskey="o"><span class="vector-icon mw-ui-icon-logIn mw-ui-icon-wikimedia-logIn"></span><span>Se connecter</span></a></li></ul>', cssClass : 'vector-menu-content', cssId : '', contentOnlyText : false},
-        {tagName : 'ul', completeTag : ulTag, content:'<li id="pt-createaccount" class="user-links-collapsible-item mw-list-item"><a href="/index.php?title=Sp%C3%A9cial:Cr%C3%A9er_un_compte&amp;returnto=Liste+des+Pok%C3%A9mon+de+la+premi%C3%A8re+g%C3%A9n%C3%A9ration" title="Nous vous encourageons à créer un compte utilisateur et vous connecter ; ce n’est cependant pas obligatoire."><span class="vector-icon mw-ui-icon-userAdd mw-ui-icon-wikimedia-userAdd"></span><span>Créer un compte</span></a></li><li id="pt-login" class="user-links-collapsible-item mw-list-item"><a href="/index.php?title=Sp%C3%A9cial:Connexion&amp;returnto=Liste+des+Pok%C3%A9mon+de+la+premi%C3%A8re+g%C3%A9n%C3%A9ration" title="Nous vous encourageons à vous connecter ; ce n’est cependant pas obligatoire. [o]" accesskey="o"><span class="vector-icon mw-ui-icon-logIn mw-ui-icon-wikimedia-logIn"></span><span>Se connecter</span></a></li>', cssClass : 'vector-menu-content-list', cssId : '', contentOnlyText : false},
-        {tagName : 'li', completeTag : liCreateAccount, content:'<a href="/index.php?title=Sp%C3%A9cial:Cr%C3%A9er_un_compte&amp;returnto=Liste+des+Pok%C3%A9mon+de+la+premi%C3%A8re+g%C3%A9n%C3%A9ration" title="Nous vous encourageons à créer un compte utilisateur et vous connecter ; ce n’est cependant pas obligatoire."><span class="vector-icon mw-ui-icon-userAdd mw-ui-icon-wikimedia-userAdd"></span><span>Créer un compte</span></a>', cssClass:'user-links-collapsible-item mw-list-item', cssId: 'pt-createaccount', contentOnlyText : false},
-        {tagName : 'li', completeTag : liLogin, content:'<a href="/index.php?title=Sp%C3%A9cial:Connexion&amp;returnto=Liste+des+Pok%C3%A9mon+de+la+premi%C3%A8re+g%C3%A9n%C3%A9ration" title="Nous vous encourageons à vous connecter ; ce n’est cependant pas obligatoire. [o]" accesskey="o"><span class="vector-icon mw-ui-icon-logIn mw-ui-icon-wikimedia-logIn"></span><span>Se connecter</span></a>', cssClass:'user-links-collapsible-item mw-list-item', cssId: 'pt-login', contentOnlyText : false},
-        {tagName : 'a', completeTag : aLogin, content : '<span class="vector-icon mw-ui-icon-logIn mw-ui-icon-wikimedia-logIn"></span><span>Se connecter</span>', cssClass : '', cssId : '', contentOnlyText : false},
-        {tagName : 'span', completeTag: spanLogin, content:'', cssClass:'vector-icon mw-ui-icon-logIn mw-ui-icon-wikimedia-logIn', cssId: '', contentOnlyText : true},
-        {tagName : 'span', completeTag : spanLoginLabel, content:'Se connecter', cssClass:'', cssId:'', contentOnlyText : true},
-        {tagName : 'a',  completeTag : aCreateAccount, content:'<span class="vector-icon mw-ui-icon-userAdd mw-ui-icon-wikimedia-userAdd"></span><span>Créer un compte</span>', cssClass : '', cssId : '', contentOnlyText : false},
-        {tagName : 'span', completeTag : spanUserAdd, content:'', cssClass:'vector-icon mw-ui-icon-userAdd mw-ui-icon-wikimedia-userAdd', cssId: '', contentOnlyText : true},
-        {tagName : 'span', completeTag : spanCreateAccount, content:'Créer un compte', cssClass:'', cssId:'', contentOnlyText : true}];
+    const expected = [{tagName : 'div', completeTag : html, parentTag : '' ,content:'<ul class="vector-menu-content-list"><li id="pt-createaccount" class="user-links-collapsible-item mw-list-item"><a href="/index.php?title=Sp%C3%A9cial:Cr%C3%A9er_un_compte&amp;returnto=Liste+des+Pok%C3%A9mon+de+la+premi%C3%A8re+g%C3%A9n%C3%A9ration" title="Nous vous encourageons à créer un compte utilisateur et vous connecter ; ce n’est cependant pas obligatoire."><span class="vector-icon mw-ui-icon-userAdd mw-ui-icon-wikimedia-userAdd"></span><span>Créer un compte</span></a></li><li id="pt-login" class="user-links-collapsible-item mw-list-item"><a href="/index.php?title=Sp%C3%A9cial:Connexion&amp;returnto=Liste+des+Pok%C3%A9mon+de+la+premi%C3%A8re+g%C3%A9n%C3%A9ration" title="Nous vous encourageons à vous connecter ; ce n’est cependant pas obligatoire. [o]" accesskey="o"><span class="vector-icon mw-ui-icon-logIn mw-ui-icon-wikimedia-logIn"></span><span>Se connecter</span></a></li></ul>', cssClass : 'vector-menu-content', cssId : '', contentOnlyText : false},
+        {tagName : 'ul', completeTag : ulTag, parentTag : html, content:'<li id="pt-createaccount" class="user-links-collapsible-item mw-list-item"><a href="/index.php?title=Sp%C3%A9cial:Cr%C3%A9er_un_compte&amp;returnto=Liste+des+Pok%C3%A9mon+de+la+premi%C3%A8re+g%C3%A9n%C3%A9ration" title="Nous vous encourageons à créer un compte utilisateur et vous connecter ; ce n’est cependant pas obligatoire."><span class="vector-icon mw-ui-icon-userAdd mw-ui-icon-wikimedia-userAdd"></span><span>Créer un compte</span></a></li><li id="pt-login" class="user-links-collapsible-item mw-list-item"><a href="/index.php?title=Sp%C3%A9cial:Connexion&amp;returnto=Liste+des+Pok%C3%A9mon+de+la+premi%C3%A8re+g%C3%A9n%C3%A9ration" title="Nous vous encourageons à vous connecter ; ce n’est cependant pas obligatoire. [o]" accesskey="o"><span class="vector-icon mw-ui-icon-logIn mw-ui-icon-wikimedia-logIn"></span><span>Se connecter</span></a></li>', cssClass : 'vector-menu-content-list', cssId : '', contentOnlyText : false},
+        {tagName : 'li', completeTag : liCreateAccount, parentTag : ulTag, content:'<a href="/index.php?title=Sp%C3%A9cial:Cr%C3%A9er_un_compte&amp;returnto=Liste+des+Pok%C3%A9mon+de+la+premi%C3%A8re+g%C3%A9n%C3%A9ration" title="Nous vous encourageons à créer un compte utilisateur et vous connecter ; ce n’est cependant pas obligatoire."><span class="vector-icon mw-ui-icon-userAdd mw-ui-icon-wikimedia-userAdd"></span><span>Créer un compte</span></a>', cssClass:'user-links-collapsible-item mw-list-item', cssId: 'pt-createaccount', contentOnlyText : false},
+        {tagName : 'li', completeTag : liLogin, parentTag : ulTag, content:'<a href="/index.php?title=Sp%C3%A9cial:Connexion&amp;returnto=Liste+des+Pok%C3%A9mon+de+la+premi%C3%A8re+g%C3%A9n%C3%A9ration" title="Nous vous encourageons à vous connecter ; ce n’est cependant pas obligatoire. [o]" accesskey="o"><span class="vector-icon mw-ui-icon-logIn mw-ui-icon-wikimedia-logIn"></span><span>Se connecter</span></a>', cssClass:'user-links-collapsible-item mw-list-item', cssId: 'pt-login', contentOnlyText : false},
+        {tagName : 'a', completeTag : aLogin, parentTag : liLogin, content : '<span class="vector-icon mw-ui-icon-logIn mw-ui-icon-wikimedia-logIn"></span><span>Se connecter</span>', cssClass : '', cssId : '', contentOnlyText : false},
+        {tagName : 'span', completeTag: spanLogin, parentTag : aLogin, content:'', cssClass:'vector-icon mw-ui-icon-logIn mw-ui-icon-wikimedia-logIn', cssId: '', contentOnlyText : true},
+        {tagName : 'span', completeTag : spanLoginLabel, parentTag : aLogin, content:'Se connecter', cssClass:'', cssId:'', contentOnlyText : true},
+        {tagName : 'a',  completeTag : aCreateAccount, parentTag : liCreateAccount, content:'<span class="vector-icon mw-ui-icon-userAdd mw-ui-icon-wikimedia-userAdd"></span><span>Créer un compte</span>', cssClass : '', cssId : '', contentOnlyText : false},
+        {tagName : 'span', completeTag : spanUserAdd, parentTag : aCreateAccount, content:'', cssClass:'vector-icon mw-ui-icon-userAdd mw-ui-icon-wikimedia-userAdd', cssId: '', contentOnlyText : true},
+        {tagName : 'span', completeTag : spanCreateAccount, parentTag : aCreateAccount, content:'Créer un compte', cssClass:'', cssId:'', contentOnlyText : true}];
     expect(CompareTagObject(expected,result)).toBe(true);
 });
 
@@ -72,10 +72,10 @@ test('Build Dom starting with forbidden tag', ()=>{
     const dom = new Dom(mockDependency);
     const result = dom.buildDom(html);
 
-    const expected = [{tagName : 'label', completeTag : label, content: '<span class="vector-icon mw-ui-icon-menu mw-ui-icon-wikimedia-menu"></span><span class="vector-dropdown-label-text">Menu principal</span>', 
+    const expected = [{tagName : 'label', completeTag : label, parentTag : '', content: '<span class="vector-icon mw-ui-icon-menu mw-ui-icon-wikimedia-menu"></span><span class="vector-dropdown-label-text">Menu principal</span>', 
         cssClass:'vector-dropdown-label cdx-button cdx-button--fake-button cdx-button--fake-button--enabled cdx-button--weight-quiet cdx-button--icon-only', cssId : 'vector-main-menu-dropdown-label', "contentOnlyText":false}, 
-        {tagName : 'span', completeTag : spanIcon, content :'', cssClass : 'vector-icon mw-ui-icon-menu mw-ui-icon-wikimedia-menu', cssId : '', "contentOnlyText":true}, 
-        {tagName : 'span', completeTag : spanLabel, content :'Menu principal', cssClass : 'vector-dropdown-label-text', cssId : '', "contentOnlyText":true}];
+        {tagName : 'span', completeTag : spanIcon, parentTag : label, content :'', cssClass : 'vector-icon mw-ui-icon-menu mw-ui-icon-wikimedia-menu', cssId : '', "contentOnlyText":true}, 
+        {tagName : 'span', completeTag : spanLabel, parentTag : label, content :'Menu principal', cssClass : 'vector-dropdown-label-text', cssId : '', "contentOnlyText":true}];
     expect(CompareTagObject(expected,result)).toBe(true);
 })
 
@@ -88,8 +88,8 @@ test('Build Dom with a forbidden tag inside div', ()=>{
     const dom = new Dom(mockDependency);
     const result = dom.buildDom(html);
 
-    const expected = [{tagName : 'div', completeTag : html, content: '<input class="cdx-text-input__input" type="search" name="search" placeholder="Rechercher sur Poképédia" aria-label="Rechercher sur Poképédia" autocapitalize="sentences" title="Rechercher sur Poképédia [f]" accesskey="f" id="searchInput"><span class="cdx-text-input__icon cdx-text-input__start-icon"></span>', cssClass:'cdx-text-input cdx-text-input--has-start-icon', cssId : '', contentOnlyText:false}, 
-        {tagName : 'span', completeTag : span, content :'', cssClass : 'cdx-text-input__icon cdx-text-input__start-icon', cssId : '', contentOnlyText:true}];
+    const expected = [{tagName : 'div', completeTag : html, parentTag : '', content: '<input class="cdx-text-input__input" type="search" name="search" placeholder="Rechercher sur Poképédia" aria-label="Rechercher sur Poképédia" autocapitalize="sentences" title="Rechercher sur Poképédia [f]" accesskey="f" id="searchInput"><span class="cdx-text-input__icon cdx-text-input__start-icon"></span>', cssClass:'cdx-text-input cdx-text-input--has-start-icon', cssId : '', contentOnlyText:false}, 
+        {tagName : 'span', completeTag : span, parentTag : html, content :'', cssClass : 'cdx-text-input__icon cdx-text-input__start-icon', cssId : '', contentOnlyText:true}];
     expect(CompareTagObject(expected,result)).toBe(true);
 })
 

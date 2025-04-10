@@ -10,28 +10,29 @@ export default class Dom{
     buildDom = (html)=>{
         const domResult = [];
         const htmlToAnalyze = [];
-        htmlToAnalyze.push(html);
+        htmlToAnalyze.push({html : html, parentElement : ''});
         while(htmlToAnalyze.length > 0){
-            const tags = htmlToAnalyze.pop();
-            const analyzes = this.workingPartDom(tags);
+            const lastEntry = htmlToAnalyze.pop();
+            const tags = lastEntry.html;
+            const analyzes = this.workingPartDom(tags, lastEntry.parentElement);
             for(let i = 0; i < analyzes.length; i ++){
                 const analyze = analyzes[i];
                 domResult.push(analyze);
                 if(!analyze.contentOnlyText)
-                    htmlToAnalyze.push(analyze.content);
+                    htmlToAnalyze.push({html : analyze.content, parentElement : analyze.completeTag});
             }
         }
         return domResult;
     }
 
-    workingPartDom = (html)=>{
+    workingPartDom = (html, parentTag)=>{
         this.extractAllTags = new ExtractAllTags();
         this.logsMessage(html);
         const tags = this.extractAllTags.extract(html);
         const analyzes = [];
         for(let i = 0; i < tags.length; i ++){
             this.analyze = new AnalyzeTag();
-            const analyze = this.analyze.analyzeData(tags[i]);
+            const analyze = this.analyze.analyzeData(tags[i], parentTag);
             analyzes.push(analyze);
         }
         return analyzes;

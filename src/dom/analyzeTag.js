@@ -1,9 +1,9 @@
 import DeterminateContent from "./determinateContent.js";
 
-//Maybe in the futur I will do not need some of properties in the final object
 export default class AnalyzeTag{
     constructor(){
         this.allHtml = '';
+        this.parentTag = '';
         this.openTag = '';
         this.closeTag = '';
         this.content = '';
@@ -14,8 +14,9 @@ export default class AnalyzeTag{
         this.analyze = {};
     }
 
-    analyzeData = (html)=>{
+    analyzeData = (html, parentTag)=>{
         this.allHtml = html;
+        this.parentTag = parentTag;
         this.cleanHtml();
         this.determinateOpenTag();
         this.determinateTag();
@@ -108,6 +109,7 @@ export default class AnalyzeTag{
         this.analyze = {
             tagName : this.tag,
             completeTag : this.completeTag,
+            parentTag : this.parentTag,
             content : this.content,
             cssClass : this.cssClass,
             cssId : this.cssId,
