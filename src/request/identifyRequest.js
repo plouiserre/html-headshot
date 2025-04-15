@@ -10,13 +10,14 @@ export default class IdentifyRequest{
             const parameters = requestsDivised[i];
             const typeRequest = this.detectTypeFinding(parameters);
             const filter = this.detectFilter(parameters, typeRequest);
-            requestIdentified.push(filter, typeRequest);
+            requestIdentified[filter]=typeRequest;
         }
         return requestIdentified;
     }
 
     detectTypeFinding = (parameters) =>{
-        const firstCaracter = parameters[0];
+        const cleanParameters = parameters.trim();
+        const firstCaracter = cleanParameters[0];
         if(firstCaracter === "#")
             return 'id';
         else if(firstCaracter === ".")
@@ -27,10 +28,10 @@ export default class IdentifyRequest{
 
     detectFilter = (parameters, typeRequest) => {
         if(typeRequest === 'id')
-            return parameters.replace('#','');
+            return parameters.replace('#','').trim();
         else if(typeRequest === 'class')
-            return parameters.replace('.','');
+            return parameters.replace('.','').trim();
         else 
-            return parameters;
+            return parameters.trim();
     }
 }

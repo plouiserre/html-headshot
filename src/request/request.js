@@ -1,3 +1,5 @@
+import IdentifyRequest from "./identifyRequest";
+
 export default class Request{
     constructor(domResults){
         this.domResults = domResults;
@@ -20,13 +22,9 @@ export default class Request{
     } 
 
     detectTypeFinding = (parameters) =>{
-        const firstCaracter = parameters[0];
-        if(firstCaracter === ".")
-            return 'id';
-        else if(firstCaracter === "#")
-            return 'class';
-        else
-            return 'tagName';
+        const identifyRequest = new IdentifyRequest(parameters);
+        const typeFInd =  identifyRequest.analyze();
+        return Object.values(typeFInd)[0];
     }
 
     findById = (cssId)=>{
@@ -41,6 +39,8 @@ export default class Request{
                 continue;
             }
         }
+        if(tags.length === 0)
+            throw new Error(`L'id ${cssId} n'est attribuée à aucun élément`);
         return tags;
     };
 
@@ -48,14 +48,43 @@ export default class Request{
         let tags = [];
             for(let i = 0; i < this.domResults.length; i ++){
                 const tagEvaluated = this.domResults[i];
-                if(tagEvaluated.cssClass.includes(cssClass)){
+                if(this.isACssClass(tagEvaluated.cssClass,cssClass)){
                     tags.push(tagEvaluated);
                 }
                 else{
                     continue;
                 }
             }
+            if(tags.length === 0)
+                throw new Error(`La classe ${cssClass} n'est attribuée à aucun élément`);
             return tags;
+    }
+
+    isACssClass = (allCssClass, cssClassCandidate) => {
+        const isMultipleCssClass = cssClassCandidate.split(' ').length > 1 ? true : false;
+        if(isMultipleCssClass){
+            return allCssClass === cssClassCandidate;
+        }
+        else {
+            return this.checkSimpleCssClass(allCssClass, cssClassCandidate);
+        }
+    };
+
+
+    checkSimpleCssClass = (allCssClass, cssClassCandidate) =>{
+        let result = false;
+        const cssClasses = allCssClass.split(' ');
+        for(let i = 0; i < cssClasses.length; i++){
+            const cssClass = cssClasses[i].trim();
+            if(cssClass === cssClassCandidate){
+                result = true;
+                break;
+            }
+            else{
+                continue;
+            }
+        }
+        return result;
     }
 
     findByTag = (tagName) =>{
@@ -69,6 +98,8 @@ export default class Request{
                 continue;
             }
         }
+        if(tags.length === 0)
+            throw new Error(`La balise ${tagName} n'est attribuée à aucun élément`);
         return tags;
     }
 }

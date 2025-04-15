@@ -25,4 +25,29 @@ const CompareTagObject = (expected, result)=>{
         return false;
 }
 
-export {CompareTagObject, CompareTagArrays}
+const CompareTagsDictionnary = (expected, result) =>{
+    const expectedKeys = Object.keys(expected);
+    const resultsKeys = Object.keys(result);
+    const expectedValues = Object.values(expected);
+    const resultsValues = Object.values(result);
+    return compareArrays(expectedKeys, resultsKeys) && compareArrays(expectedValues, resultsValues);
+}
+
+const compareArrays = (expectedArrays, resultArrays) =>{
+    let isEqual = true;
+    if(expectedArrays.length !== resultArrays.length)
+        return false;
+    else{
+        for(let i = 0; i < expectedArrays.length; i ++){
+            const expected = expectedArrays[i];
+            const result = resultArrays[i];
+            if(expected !== result){
+                isEqual = false;
+                break;
+            }
+        }
+    }
+    return isEqual;
+}
+
+export {CompareTagObject, CompareTagArrays, CompareTagsDictionnary}
