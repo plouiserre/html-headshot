@@ -1,5 +1,5 @@
 import IdentifyRequest from "../../src/request/identifyRequest";
-import { CompareTagArrays } from "../utils/compare";
+import { CompareTagArrays, CompareTagsDictionnary } from "../utils/compare";
 
 test('identify the request writing clear', ()=>{
     const request = '.news > td > .headlines > span > li';
@@ -7,6 +7,14 @@ test('identify the request writing clear', ()=>{
 
     const result = identifyRequest.analyze();
 
-    const expected = [{"news":"class"}, {"td":"tagName"}, {"headlines":"class"}]
-    CompareTagArrays(expected, result);
+    const expected ={};
+    expected["news"] = "class";
+    expected["td"] = "tagName";
+    expected["headlines"] = "class";
+    expected["span"] = "tagName";
+    expected["li"] = "tagName";
+
+    expect(CompareTagsDictionnary(expected, result)).toBe(true);
 })
+
+//TODO voir si on a deux fois la même balise dans la chaîne !!!!!!!

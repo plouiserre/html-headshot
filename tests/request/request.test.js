@@ -1,56 +1,88 @@
 import Request from "../../src/request/request.js";
+import { CompareTagObject } from "../utils/compare.js";
+import { GetDomResults, GetHtmlData } from "../utils/data.js";
 
-const domResults = [
-    {tagName : 'title', content : '<title>Liste des Pokémon de la première génération — Poképédia</title>', contentOnlyText : false, cssClass : "", cssId :""},
-    {tagName : 'span', content : '<span class="vector-dropdown-label-text">Menu principal</span>', contentOnlyText : false, cssClass : "vector-dropdown-label-text", cssId :""},
-    {tagName : 'h1', content : '<h1 id="firstHeading" class="firstHeading mw-first-heading">Titre Présentation</h1>', contentOnlyText : false, cssClass : "firstHeading mw-first-heading", cssId :"firstHeading"},
-    {tagName : 'span', content : '<span class="vector-dropdown-label-text">Sous menu principal</span>', contentOnlyText : false, cssClass : "vector-dropdown-label-text2", cssId :""},
-    {tagName : 'li', content : '<li><a href="/Cat%C3%A9gorie:Liste_de_Pok%C3%A9mon" title="Catégorie:Liste de Pokémon">Liste de Pokémon</a></li>', contentOnlyText : false, cssClass : "", cssId :""}
-];
+const domResults = GetDomResults();
 
-test('Find tag with id firstHeading', ()=>{
+test('Find tag with class vector-menu-content-list', ()=>{
     const request = new Request(domResults);
 
-    const result = request.find('.firstHeading'); 
+    const result = request.find('.vector-menu-content-list'); 
 
-    const resultWaiting = [{tagName : 'h1', content : '<h1 id="firstHeading" class="firstHeading mw-first-heading">Titre Présentation</h1>', contentOnlyText : false, cssClass : "firstHeading mw-first-heading", cssId :"firstHeading"}];
-    expect(JSON.stringify(result)).toBe(JSON.stringify(resultWaiting));
+    const expected = [domResults[1]];
+    expect(CompareTagObject(expected,result)).toBe(true);
 });
 
 test('Find tag with tagName title', ()=>{
     const request = new Request(domResults);
 
-    const result = request.find('title'); 
+    const result = request.find('ul'); 
 
-    const resultWaiting = [{tagName : 'title', content : '<title>Liste des Pokémon de la première génération — Poképédia</title>', contentOnlyText : false, cssClass : "", cssId :""}];
-    expect(JSON.stringify(result)).toBe(JSON.stringify(resultWaiting));
+    const expected = [domResults[1]];
+    expect(CompareTagObject(expected,result)).toBe(true);
 });
 
-test('Find tag with class firstHeading located with many class', ()=>{
+test('Find tag with id pt-createaccount located with many class', ()=>{
     const request = new Request(domResults);
 
-    const result = request.find('#firstHeading'); 
+    const result = request.find('#pt-createaccount'); 
 
-    const resultWaiting = [{tagName : 'h1', content : '<h1 id="firstHeading" class="firstHeading mw-first-heading">Titre Présentation</h1>', contentOnlyText : false, cssClass : "firstHeading mw-first-heading", cssId :"firstHeading"}];
-    expect(JSON.stringify(result)).toBe(JSON.stringify(resultWaiting));
+    const expected = [domResults[2]];
+    expect(CompareTagObject(expected,result)).toBe(true);
 });
 
 test('Find tags with tagName span', ()=>{
     const request = new Request(domResults);
 
-    const result = request.find('span'); 
+    const results = request.find('span'); 
 
-    const resultWaiting = [{tagName : 'span', content : '<span class="vector-dropdown-label-text">Menu principal</span>', contentOnlyText : false, cssClass : "vector-dropdown-label-text", cssId :""},
-        {tagName : 'span', content : '<span class="vector-dropdown-label-text">Sous menu principal</span>', contentOnlyText : false, cssClass : "vector-dropdown-label-text2", cssId :""}];
-    expect(JSON.stringify(result)).toBe(JSON.stringify(resultWaiting));
+    const spanFirstExpected = domResults[5];
+    const spanSecondExpected = domResults[6];
+    const spanThirdExpected = domResults[8];
+    const spanFourthExpected = domResults[9];
+    expect(CompareTagObject(spanFirstExpected,results[0])).toBe(true);
+    expect(CompareTagObject(spanSecondExpected,results[1])).toBe(true);
+    expect(CompareTagObject(spanThirdExpected,results[2])).toBe(true);
+    expect(CompareTagObject(spanFourthExpected,results[3])).toBe(true);
 });
 
-test('Find tags with className vector-dropdown-label-text', ()=>{
+test('Find tags with all classNames user-links-collapsible-item mw-list-item', ()=>{
     const request = new Request(domResults);
 
-    const result = request.find('#vector-dropdown-label-text'); 
+    const results = request.find('.user-links-collapsible-item mw-list-item'); 
 
-    const resultWaiting = [{tagName : 'span', content : '<span class="vector-dropdown-label-text">Menu principal</span>', contentOnlyText : false, cssClass : "vector-dropdown-label-text", cssId :""},
-        {tagName : 'span', content : '<span class="vector-dropdown-label-text">Sous menu principal</span>', contentOnlyText : false, cssClass : "vector-dropdown-label-text2", cssId :""}];
-    expect(JSON.stringify(result)).toBe(JSON.stringify(resultWaiting));
+    const liFirstExpected = domResults[2];
+    const liSecondExpected = domResults[3]; 
+    expect(CompareTagObject(liFirstExpected,results[0])).toBe(true);
+    expect(CompareTagObject(liSecondExpected,results[1])).toBe(true);
+});
+
+test('Find tags with classNames vector-icon', ()=>{
+    const request = new Request(domResults);
+
+    const results = request.find('.vector-icon'); 
+
+    const liFirstExpected = domResults[5];
+    const liSecondExpected = domResults[8]; 
+    expect(CompareTagObject(liFirstExpected,results[0])).toBe(true);
+    expect(CompareTagObject(liSecondExpected,results[1])).toBe(true);
+});
+
+test('Find no tags with className vector', ()=>{
+    const request = new Request(domResults);
+
+    expect(()=>request.find('.vector')).toThrow(`La classe vector n'est attribuée à aucun élément`);
+
+});
+
+test('Find no tags title', ()=>{
+    const request = new Request(domResults);
+
+    expect(()=>request.find('title')).toThrow(`La balise title n'est attribuée à aucun élément`);
+});
+
+test('Find no tags with id main', ()=>{
+    const request = new Request(domResults);
+
+    expect(()=>request.find('#main')).toThrow(`L'id main n'est attribuée à aucun élément`);
 });
