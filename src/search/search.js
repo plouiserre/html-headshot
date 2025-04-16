@@ -1,6 +1,7 @@
 import IdentifyRequest from "./identifyRequest";
 
-export default class Request{
+//Todo renommer cette classe
+export default class Search{
     constructor(domResults){
         this.domResults = domResults;
         this.type = '';
