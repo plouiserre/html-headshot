@@ -4,12 +4,7 @@ import { GetDomResults } from "../utils/data.js";
 
 const domResults = GetDomResults();
 
-//deuxième test le meme avec un niveau en plus avec les deux spans
-
-//quatrieme test avec une union
-
-//TODO revoir ce test mother fucker!!!!
-test('Test two request', ()=>{
+test('Test two requests', ()=>{
     const multiSearch = new MultiSearch(domResults);
 
     const result = multiSearch.execute('#pt-login > a'); 
@@ -18,7 +13,7 @@ test('Test two request', ()=>{
     expect(CompareTagObject(expected, result)).toBe(true);
 });
 
-test('Test three request with many answers after', ()=>{
+test('Test three requests with many answers after', ()=>{
     const multiSearch = new MultiSearch(domResults);
 
     const result = multiSearch.execute('#pt-login > a > span'); 
