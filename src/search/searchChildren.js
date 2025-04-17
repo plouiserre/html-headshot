@@ -1,4 +1,4 @@
-export default class RequestChildren{
+export default class SearchChildren{
     constructor(domResults){
         this.domResults = domResults;
     }

@@ -1,31 +1,21 @@
-import IdentifyRequest from "./identifyRequest";
-
-export default class Request{
+export default class Search{
     constructor(domResults){
         this.domResults = domResults;
         this.type = '';
     }
 
-    find = (parameters) =>{
-        const type = this.detectTypeFinding(parameters);
-        const value = type === 'tagName' ? parameters : parameters.substring(1, parameters.length);
+    find = (identifier, type) =>{
         if(type === 'id'){
-            return this.findById(value);
+            return this.findById(identifier);
         }
         else if(type === 'class'){
-            return this.findByCssClass(value);
+            return this.findByCssClass(identifier);
         }
         else if(type ==='tagName'){
-            return this.findByTag(value);
+            return this.findByTag(identifier);
         }
         return null;
     } 
-
-    detectTypeFinding = (parameters) =>{
-        const identifyRequest = new IdentifyRequest(parameters);
-        const typeFInd =  identifyRequest.analyze();
-        return Object.values(typeFInd)[0];
-    }
 
     findById = (cssId)=>{
         let tags = [];

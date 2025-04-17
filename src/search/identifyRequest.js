@@ -4,7 +4,7 @@ export default class IdentifyRequest{
     }
 
     analyze = () =>{
-        const requestIdentified = [];
+        const requestIdentified = {};
         const requestsDivised = this.request.split('>');
         for(let i = 0; i < requestsDivised.length; i ++){
             const parameters = requestsDivised[i];
