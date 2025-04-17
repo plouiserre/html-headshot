@@ -1,13 +1,13 @@
 import Search from "../../src/search/search.js";
 import { CompareTagObject } from "../utils/compare.js";
-import { GetDomResults, GetHtmlData } from "../utils/data.js";
+import { GetDomResults } from "../utils/data.js";
 
 const domResults = GetDomResults();
 
 test('Find tag with class vector-menu-content-list', ()=>{
     const search = new Search(domResults);
-
-    const result = search.find('.vector-menu-content-list'); 
+    
+    const result = search.find('vector-menu-content-list', 'class'); 
 
     const expected = [domResults[1]];
     expect(CompareTagObject(expected,result)).toBe(true);
@@ -16,7 +16,7 @@ test('Find tag with class vector-menu-content-list', ()=>{
 test('Find tag with tagName title', ()=>{
     const search = new Search(domResults);
 
-    const result = search.find('ul'); 
+    const result = search.find('ul', 'tagName'); 
 
     const expected = [domResults[1]];
     expect(CompareTagObject(expected,result)).toBe(true);
@@ -25,7 +25,7 @@ test('Find tag with tagName title', ()=>{
 test('Find tag with id pt-createaccount located with many class', ()=>{
     const search = new Search(domResults);
 
-    const result = search.find('#pt-createaccount'); 
+    const result = search.find('pt-createaccount', 'id'); 
 
     const expected = [domResults[2]];
     expect(CompareTagObject(expected,result)).toBe(true);
@@ -34,7 +34,7 @@ test('Find tag with id pt-createaccount located with many class', ()=>{
 test('Find tags with tagName span', ()=>{
     const search = new Search(domResults);
 
-    const results = search.find('span'); 
+    const results = search.find('span', 'tagName'); 
 
     const spanFirstExpected = domResults[5];
     const spanSecondExpected = domResults[6];
@@ -49,7 +49,7 @@ test('Find tags with tagName span', ()=>{
 test('Find tags with all classNames user-links-collapsible-item mw-list-item', ()=>{
     const search = new Search(domResults);
 
-    const results = search.find('.user-links-collapsible-item mw-list-item'); 
+    const results = search.find('user-links-collapsible-item mw-list-item', 'class'); 
 
     const liFirstExpected = domResults[2];
     const liSecondExpected = domResults[3]; 
@@ -60,7 +60,7 @@ test('Find tags with all classNames user-links-collapsible-item mw-list-item', (
 test('Find tags with classNames vector-icon', ()=>{
     const search = new Search(domResults);
 
-    const results = search.find('.vector-icon'); 
+    const results = search.find('vector-icon', 'class'); 
 
     const liFirstExpected = domResults[5];
     const liSecondExpected = domResults[8]; 
@@ -71,18 +71,18 @@ test('Find tags with classNames vector-icon', ()=>{
 test('Find no tags with className vector', ()=>{
     const search = new Search(domResults);
 
-    expect(()=>search.find('.vector')).toThrow(`La classe vector n'est attribuée à aucun élément`);
+    expect(()=>search.find('vector', 'class')).toThrow(`La classe vector n'est attribuée à aucun élément`);
 
 });
 
 test('Find no tags title', ()=>{
     const search = new Search(domResults);
 
-    expect(()=>search.find('title')).toThrow(`La balise title n'est attribuée à aucun élément`);
+    expect(()=>search.find('title', 'tagName')).toThrow(`La balise title n'est attribuée à aucun élément`);
 });
 
 test('Find no tags with id main', ()=>{
     const search = new Search(domResults);
 
-    expect(()=>search.find('#main')).toThrow(`L'id main n'est attribuée à aucun élément`);
+    expect(()=>search.find('main', 'id')).toThrow(`L'id main n'est attribuée à aucun élément`);
 });

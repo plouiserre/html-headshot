@@ -8,11 +8,21 @@ const domResults = GetDomResults();
 
 //quatrieme test avec une union
 
+//TODO revoir ce test mother fucker!!!!
 test('Test two request', ()=>{
     const multiSearch = new MultiSearch(domResults);
 
-    const result = multiSearch.execute('.liLogin > a'); 
+    const result = multiSearch.execute('#pt-login > a'); 
 
     const expected = [domResults[4]];
-    expected(CompareTagObject(result, expected)).toBeTrue(true);
+    expect(CompareTagObject(expected, result)).toBe(true);
+});
+
+test('Test three request with many answers after', ()=>{
+    const multiSearch = new MultiSearch(domResults);
+
+    const result = multiSearch.execute('#pt-login > a > span'); 
+
+    const expected = [ domResults[5], domResults[6]];
+    expect(CompareTagObject(expected, result)).toBe(true);
 });
