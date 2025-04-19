@@ -4,7 +4,9 @@ export default class Search{
         this.type = '';
     }
 
-    find = (identifier, type) =>{
+    find = (options) =>{
+        const identifier = options.identifier;
+        const type = options.type;
         if(type === 'id'){
             return this.findById(identifier);
         }
