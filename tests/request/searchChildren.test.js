@@ -10,8 +10,6 @@ test('Find children elements', ()=>{
 
     const children = searchChildren.findChildren(aCreateAccount);
 
-    const spanUserAdd = GetHtmlData('spanUserAdd');
-    const spanCreateAccount = GetHtmlData('spanCreateAccount');
     const expected = [{tagName : 'span', completeTag : GetHtmlData('spanUserAdd'), parentTag : GetHtmlData('aCreateAccount'), content:'', cssClass:'vector-icon mw-ui-icon-userAdd mw-ui-icon-wikimedia-userAdd', cssId: '', contentOnlyText : true},
         {tagName : 'span', completeTag : GetHtmlData('spanCreateAccount'), parentTag : GetHtmlData('aCreateAccount'), content:'Créer un compte', cssClass:'', cssId:'', contentOnlyText : true}];
     expect(CompareTagArrays(expected,children)).toBe(true);
