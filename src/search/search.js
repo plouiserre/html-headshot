@@ -1,3 +1,5 @@
+import SearchText from "./searchText";
+
 export default class Search{
     constructor(domResults){
         this.domResults = domResults;
@@ -7,6 +9,15 @@ export default class Search{
     find = (options) =>{
         const identifier = options.identifier;
         const type = options.type;
+        const mode = options.mode;
+        if(mode === "tags")
+            return this.findTags(identifier, type);
+        else if(mode === "text")
+            return this.findText(identifier, type);
+        return null;
+    } 
+
+    findTags = (identifier, type)=>{
         if(type === 'id'){
             return this.findById(identifier);
         }
@@ -17,7 +28,7 @@ export default class Search{
             return this.findByTag(identifier);
         }
         return null;
-    } 
+    }
 
     findById = (cssId)=>{
         let tags = [];
@@ -62,7 +73,6 @@ export default class Search{
         }
     };
 
-
     checkSimpleCssClass = (allCssClass, cssClassCandidate) =>{
         let result = false;
         const cssClasses = allCssClass.split(' ');
@@ -93,5 +103,36 @@ export default class Search{
         if(tags.length === 0)
             throw new Error(`La balise ${tagName} n'est attribuée à aucun élément`);
         return tags;
+    }
+
+    findText = (identifier, type)=>{
+        let tags = [];
+        let texts = [];
+        if(type === "tagName")
+            tags = this.findByTag(identifier);
+        else if(type === "class")
+            tags = this.findByCssClass(identifier);
+        else if(type === "id")
+            tags = this.findById(identifier);
+        texts = this.findTextInTags(tags);
+        return texts;
+    }
+
+    findTextInTags = (tags) =>{
+        let texts = [];
+        for(let i = 0; i < tags.length; i ++){
+            try{
+                const searchText = new SearchText(this.domResults, tags[i]);
+                const textFinded = searchText.find();
+                for(let i = 0; i < textFinded.length; i ++){
+                    const text = textFinded[i];
+                    texts.push(text);
+                }
+            }
+            catch(error){
+                continue;
+            }
+        }
+        return texts;
     }
 }
