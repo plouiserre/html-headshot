@@ -24,15 +24,6 @@ const CompareTagObject = (expected, result)=>{
     else
         return false;
 }
-
-const CompareTagsDictionnary = (expected, result) =>{
-    const expectedKeys = Object.keys(expected);
-    const resultsKeys = Object.keys(result);
-    const expectedValues = Object.values(expected);
-    const resultsValues = Object.values(result);
-    return compareArrays(expectedKeys, resultsKeys) && compareArrays(expectedValues, resultsValues);
-}
-
 const compareArrays = (expectedArrays, resultArrays) =>{
     let isEqual = true;
     if(expectedArrays.length !== resultArrays.length)
@@ -50,4 +41,4 @@ const compareArrays = (expectedArrays, resultArrays) =>{
     return isEqual;
 }
 
-export {CompareTagObject, CompareTagArrays, CompareTagsDictionnary}
+export {CompareTagObject, CompareTagArrays}

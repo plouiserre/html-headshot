@@ -4,14 +4,20 @@ export default class IdentifyRequest{
     }
 
     analyze = () =>{
-        const requestIdentified = {};
-        const requestsDivised = this.request.split('>');
+        let requestIdentified = {};
+        const keywords = {};
+        const path = this.request.path;
+        const requestsDivised = path.split('>');
         for(let i = 0; i < requestsDivised.length; i ++){
             const parameters = requestsDivised[i];
             const typeRequest = this.detectTypeFinding(parameters);
             const filter = this.detectFilter(parameters, typeRequest);
-            requestIdentified[filter]=typeRequest;
+            keywords[filter]=typeRequest;
         }
+        requestIdentified = {
+            keywords : keywords,
+            mode : this.request.mode
+        };
         return requestIdentified;
     }
 

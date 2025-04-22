@@ -18,6 +18,17 @@ test('Test three requests with many answers after', ()=>{
 
     const result = multiSearch.execute({parameters:'#pt-login > a > span', mode : 'tags'}); 
 
-    const expected = [ domResults[5], domResults[6]];
+    const expected = [domResults[5], domResults[6]];
+    expect(CompareTagObject(expected, result)).toBe(true);
+});
+
+
+//todo faire un test avec du text
+test('Test three requests with one answer text', ()=>{
+    const multiSearch = new MultiSearch(domResults);
+
+    const result = multiSearch.execute({parameters:'#pt-login > a > span', mode : 'text'}); 
+
+    const expected = ['Se connecter'];
     expect(CompareTagObject(expected, result)).toBe(true);
 });

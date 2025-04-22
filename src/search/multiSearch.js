@@ -8,20 +8,21 @@ export default class MultiSearch{
     }
 
     execute = (options) => {
-        const parameters = options.parameters;
+        const parameters = { path : options.parameters, mode : options.mode};
         const mode = options.mode;
         let finalResult = [];
         const identifyRequest = new IdentifyRequest(parameters);
         const requests = identifyRequest.analyze();
         let domToExplore = this.domResults;
-        Object.entries(requests).forEach(([key, value])=>{
+        Object.entries(requests.keywords).forEach(([key, value])=>{
             finalResult = [];
             const search = new Search(domToExplore);
             const options = {identifier : key, type : value, mode : mode };
             const results = search.find(options);
             for(let i = 0; i < results.length ; i++)
                 finalResult.push(results[i]);
-            domToExplore = this.findDomToExplore(results);
+            if(mode === "tags")
+                domToExplore = this.findDomToExplore(results);
         })
         return finalResult;
     }
