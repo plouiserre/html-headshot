@@ -8,22 +8,37 @@ export default class MultiSearch{
     }
 
     execute = (options) => {
-        const parameters = { path : options.parameters, mode : options.mode};
         const mode = options.mode;
         let finalResult = [];
+        let requests = this.identifyAllRequest(options);
+        finalResult = this.retrieveSearchTags(requests.keywords, mode);
+        if(mode === "tags")
+            return finalResult;
+        else{
+            const texts = this.getTexts(finalResult);
+            return texts;
+        }
+    }
+
+    identifyAllRequest = (options)=>{
+        const parameters = { path : options.parameters, mode : options.mode};
         const identifyRequest = new IdentifyRequest(parameters);
         const requests = identifyRequest.analyze();
+        return requests;
+    }
+
+    retrieveSearchTags = (keywords, mode) => {
+        let finalResult = [];
         let domToExplore = this.domResults;
-        Object.entries(requests.keywords).forEach(([key, value])=>{
+        Object.entries(keywords).forEach(([key, value])=>{
             finalResult = [];
             const search = new Search(domToExplore);
-            const options = {identifier : key, type : value, mode : mode };
+            const options = {identifier : key, type : value, mode : "tags" };
             const results = search.find(options);
             for(let i = 0; i < results.length ; i++)
                 finalResult.push(results[i]);
-            if(mode === "tags")
-                domToExplore = this.findDomToExplore(results);
-        })
+            domToExplore = this.findDomToExplore(results);
+        });
         return finalResult;
     }
 
@@ -35,5 +50,16 @@ export default class MultiSearch{
             children =  searchChildren.findChildren(parentHtml);
         }
         return children;
+    }
+
+    getTexts = (tags) =>{
+        const texts = [];
+        for(let i = 0; i < tags.length; i ++){
+            const tag = tags[i];
+            if(tag.contentOnlyText && tag.content !==''){
+                texts.push(tag.content);
+            }
+        }
+        return texts;
     }
 }

@@ -23,12 +23,21 @@ test('Test three requests with many answers after', ()=>{
 });
 
 
-//todo faire un test avec du text
 test('Test three requests with one answer text', ()=>{
     const multiSearch = new MultiSearch(domResults);
 
     const result = multiSearch.execute({parameters:'#pt-login > a > span', mode : 'text'}); 
 
     const expected = ['Se connecter'];
+    expect(CompareTagObject(expected, result)).toBe(true);
+});
+
+
+test('Test one requests with many texts', ()=>{
+    const multiSearch = new MultiSearch(domResults);
+
+    const result = multiSearch.execute({parameters:'span', mode : 'text'}); 
+
+    const expected = ['Se connecter', 'Créer un compte'];
     expect(CompareTagObject(expected, result)).toBe(true);
 });
