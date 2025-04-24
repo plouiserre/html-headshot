@@ -1,4 +1,4 @@
-import SearchChildren from "./searchChildren";
+import SearchChildren from "./searchChildren.js";
 
 export default class SearchText{
     constructor(domResults, tag){

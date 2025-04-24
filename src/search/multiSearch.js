@@ -1,6 +1,6 @@
-import IdentifyRequest from "./identifyRequest";
-import Search from "./search";
-import SearchChildren from "./searchChildren"
+import IdentifyRequest from "./identifyRequest.js";
+import Search from "./search.js";
+import SearchChildren from "./searchChildren.js"
 
 export default class MultiSearch{
     constructor(domResults){

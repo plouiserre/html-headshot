@@ -1,4 +1,4 @@
-import SearchText from "./searchText";
+import SearchText from "./searchText.js";
 
 export default class Search{
     constructor(domResults){
