@@ -8,7 +8,7 @@ export default class ExtractTag{
         this.simpleOpenTag = '';
         this.closedTag = '';
         this.deleteAllRest = false;
-        this.forbiddenTag = ['!DOCTYPE', 'meta','link', 'input', 'img'];
+        this.forbiddenTag = ['!DOCTYPE', 'meta','link', 'input', 'img', 'hr'];
     }
 
     extract = (html)=>{

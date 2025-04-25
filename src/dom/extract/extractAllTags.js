@@ -7,8 +7,6 @@ export default class ExtractAllTags{
         this.indexEnd = 0;
         this.openTag = '';
         this.closedTag = '';
-        this.isForbiddenTag = false;
-        this.forbiddenTag = ['!DOCTYPE', 'meta','link', 'input', 'img'];
     }
     
     extract = (html)=>{
