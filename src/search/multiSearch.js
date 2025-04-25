@@ -1,6 +1,8 @@
+import { all } from "axios";
 import IdentifyRequest from "./identifyRequest.js";
 import Search from "./search.js";
 import SearchChildren from "./searchChildren.js"
+import SearchText from "./searchText.js";
 
 export default class MultiSearch{
     constructor(domResults){
@@ -13,11 +15,12 @@ export default class MultiSearch{
         const mode = options.mode;
         let finalResult = [];
         let requests = this.identifyAllRequest(options);
-        finalResult = this.retrieveSearchTags(requests.keywords, mode);
-        if(mode === "tags")
+        if(mode === "tags"){
+            finalResult = this.retrieveSearchTags(requests.keywords);
             return finalResult;
+        }
         else{
-            const texts = this.getTexts(finalResult);
+            const texts = this.getTexts(requests.keywords);
             return texts;
         }
     }
@@ -29,7 +32,7 @@ export default class MultiSearch{
         return requests;
     }
 
-    retrieveSearchTags = (keywords, mode) => {
+    retrieveSearchTags = (keywords) => {
         let finalResult = [];
         let domToExplore = this.domResults;
         Object.entries(keywords).forEach(([key, value])=>{
@@ -54,12 +57,17 @@ export default class MultiSearch{
         return children;
     }
 
-    getTexts = (tags) =>{
-        const texts = [];
-        for(let i = 0; i < tags.length; i ++){
-            const tag = tags[i];
-            if(tag.contentOnlyText && tag.content !==''){
-                texts.push(tag.content);
+    getTexts = (keywords) =>{
+        let texts = [];
+        const htmlElements = this.retrieveSearchTags(keywords);
+        for(let i = 0; i < htmlElements.length; i ++){
+            const htmlElement = htmlElements[i];
+            if(htmlElement.contentOnlyText && htmlElement.content !==""){
+                const searchText = new SearchText(this.domResults, htmlElement);
+                const allTexts  = searchText.find();
+                for(let j = 0; j < allTexts.length; j++){
+                    texts.push(allTexts[j]);
+                }
             }
         }
         return texts;
