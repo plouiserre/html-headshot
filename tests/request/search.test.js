@@ -1,6 +1,6 @@
 import Search from "../../src/search/search.js";
 import { CompareTagObject, CompareTagArrays } from "../utils/compare.js";
-import { GetDomResults } from "../utils/data.js";
+import { GetDomResults } from "../utils/data/dataDomResults.js";
 
 const domResults = GetDomResults();
 

@@ -1,5 +1,5 @@
 import SearchText from "../../src/search/searchText";
-import { GetDomResults } from "../utils/data";
+import { GetDomResults } from "../utils/data/dataDomResults";
 import { CompareTagArrays } from "../utils/compare";
 
 const domResults = GetDomResults();

@@ -1,6 +1,6 @@
 import Dom from '../../src/dom/dom.js';
 import {jest} from '@jest/globals';
-import { GetDomResults, GetHtmlData } from '../utils/data.js';
+import { GetDomResults, GetHtmlData } from '../utils/data/dataDomResults.js';
 import { CompareTagArrays } from '../utils/compare.js';
 
 test('Build Dom simple html', ()=>{

@@ -1,4 +1,4 @@
-import { GetDomResults, GetHtmlData } from "../utils/data.js";
+import { GetDomResults, GetHtmlData } from "../utils/data/dataDomResults.js";
 import { CompareTagArrays } from "../utils/compare.js";
 import SearchChildren from "../../src/search/searchChildren.js";
 
