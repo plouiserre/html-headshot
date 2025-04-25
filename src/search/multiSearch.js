@@ -7,6 +7,8 @@ export default class MultiSearch{
         this.domResults = domResults;
     }
 
+    // ok l'erreur vient de là car en gros je ne creuse pas assez pour avoir les textes donc il faut que je revois 
+    // cette classe et le workflow en dessous
     execute = (options) => {
         const mode = options.mode;
         let finalResult = [];

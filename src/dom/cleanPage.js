@@ -1,4 +1,3 @@
-//TODO when finish development in dom.js externalize each method in a class
 export default class CleanPage{
     constructor(html, caractersToReplace){
         this.html = html;
